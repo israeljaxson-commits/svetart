@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 export default function BookingSystem() {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [specialRequest, setSpecialRequest] = useState('');
 
   return (
     <section id="booking" className="py-28 bg-[#F8F0EE]">
@@ -22,7 +24,8 @@ export default function BookingSystem() {
         >
           <input type="hidden" name="_subject" value="New booking request from SvetArt" />
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="https://YOUR-VERCEL-DOMAIN" />
+          <input type="hidden" name="_next" value="https://svetartstud.vercel.app" />
+
           <label className="block">
             <span className="text-sm font-semibold text-stone-700">Full name</span>
             <input
@@ -31,6 +34,20 @@ export default function BookingSystem() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
+              required
+              className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
+            />
+          </label>
+
+          <label className="block">
+            <span className="text-sm font-semibold text-stone-700">Email address</span>
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
               className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
             />
           </label>
@@ -43,6 +60,7 @@ export default function BookingSystem() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="+373 60 000 000"
+              required
               className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
             />
           </label>
@@ -55,6 +73,7 @@ export default function BookingSystem() {
                 name="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
+                required
                 className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
               />
             </label>
@@ -66,10 +85,24 @@ export default function BookingSystem() {
                 name="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
+                required
                 className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
               />
             </label>
           </div>
+
+          <label className="block">
+            <span className="text-sm font-semibold text-stone-700">Special request</span>
+            <textarea
+              name="specialRequest"
+              value={specialRequest}
+              onChange={(e) => setSpecialRequest(e.target.value)}
+              placeholder="Any special requests or preferences"
+              required
+              rows={4}
+              className="mt-3 w-full rounded-3xl border border-[#D7C6C0] bg-[#FCF7F5] px-5 py-4 text-sm text-stone-900 outline-none transition focus:border-[#D9A7A7] focus:ring-2 focus:ring-[#F2D5D2]/60"
+            />
+          </label>
 
           <button
             type="submit"

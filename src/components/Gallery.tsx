@@ -116,6 +116,13 @@ const localLookbookT = {
   }
 };
 
+import img1 from '../../assets/gallery/img1.jpg';
+import img2 from '../../assets/gallery/img2.jpg';
+import img4 from '../../assets/gallery/img4.jpg';
+import img5 from '../../assets/gallery/img5.jpg';
+import img6 from '../../assets/gallery/img6.jpg';
+import lamination from '../../assets/gallery/lamination.jpg';
+
 export default function Gallery() {
   const { lang, t } = useLanguage();
   const st = localLookbookT[lang] || localLookbookT.en;
@@ -123,7 +130,7 @@ export default function Gallery() {
   const [posts, setPosts] = useState<InstagramPost[]>([
     {
       id: 'post-1',
-      image: '/assets/gallery/img1.jpg',
+      image: img1,
       likes: 184,
       comments: 24,
       treatment: st.post1.treatment,
@@ -134,7 +141,7 @@ export default function Gallery() {
     },
     {
       id: 'post-2',
-      image: '/assets/gallery/img2.jpg',
+      image: img2,
       likes: 245,
       comments: 31,
       treatment: st.post2.treatment,
@@ -145,7 +152,7 @@ export default function Gallery() {
     },
     {
       id: 'post-3',
-      image: '/assets/gallery/lamination.jpg',
+      image: lamination,
       treatment: st.post3.treatment,
       caption: st.post3.caption,
       tags: ['#LashLamination', '#InLeiLashFiller', '#EyeGaze', '#EyelashPerm'],
@@ -154,7 +161,7 @@ export default function Gallery() {
     },
     {
       id: 'post-4',
-      image: '/assets/gallery/img4.jpg',
+      image: img4,
       likes: 198,
       comments: 19,
       treatment: st.post4.treatment,
@@ -165,7 +172,7 @@ export default function Gallery() {
     },
     {
       id: 'post-5',
-      image: '/assets/gallery/img5.jpg',
+      image: img5,
       likes: 289,
       comments: 37,
       treatment: st.post5.treatment,
@@ -176,7 +183,7 @@ export default function Gallery() {
     },
     {
       id: 'post-6',
-      image: '/assets/gallery/img6.jpg',
+      image: img6,
       likes: 324,
       comments: 43,
       treatment: st.post6.treatment,

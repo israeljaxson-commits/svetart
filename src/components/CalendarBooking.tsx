@@ -410,72 +410,6 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
   };
 
   // Submit Booking
-  const handleConfirmReservation = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!clientName.trim()) {
-      e.preventDefault();
-      setValidationError(dict.nameReq);
-      return;
-    }
-    if (!clientPhone.trim() || clientPhone.length < 6) {
-      e.preventDefault();
-      setValidationError(dict.phoneReq);
-      return;
-    }
-    if (!clientEmail.trim() || !clientEmail.includes('@')) {
-      e.preventDefault();
-      setValidationError(dict.emailReq);
-      return;
-    }
-
-    if (!selectedService || !selectedDate || !selectedTime) {
-      e.preventDefault();
-      return;
-    }
-
-    const formattedDateStr = getDateString(selectedDate);
-    const codeSuffix = Math.floor(1000 + Math.random() * 9000);
-    const monthCode = String(selectedDate.getMonth() + 1).padStart(2, '0');
-    const dayCode = String(selectedDate.getDate()).padStart(2, '0');
-    const generatedReferenceCode = `SV-${currentYear % 100}${monthCode}${dayCode}-${codeSuffix}`;
-
-    const newBooking: Booking = {
-      id: `booking-${Date.now()}`,
-      serviceId: selectedService.id,
-      serviceName: selectedService.name[lang] || selectedService.name.en,
-      duration: selectedService.duration,
-      dateString: formattedDateStr,
-      timeSlot: selectedTime,
-      clientName,
-      clientPhone,
-      clientEmail,
-      clientNotes,
-      referenceCode: generatedReferenceCode,
-      createdAt: new Date().toISOString()
-    };
-
-    const updatedBookings = [...activeBookings, newBooking];
-    setActiveBookings(updatedBookings);
-    setLastConfirmedBooking(newBooking);
-    setReferenceCode(generatedReferenceCode);
-    localStorage.setItem('svetart_luxury_bookings', JSON.stringify(updatedBookings));
-
-    const newSlotId = getSlotId(selectedDate, selectedTime);
-    setSimulatedBookedSlots(prev => ({
-      ...prev,
-      [newSlotId]: true
-    }));
-
-    const referenceInput = e.currentTarget.querySelector<HTMLInputElement>('input[name="reference"]');
-    if (referenceInput) {
-      referenceInput.value = generatedReferenceCode;
-    }
-
-    if (onBookingComplete) {
-      onBookingComplete(newBooking);
-    }
-
-    setStep(4);
-  };
 
   const handleCancelBooking = (id: string) => {
     const updated = activeBookings.filter(b => b.id !== id);
@@ -774,11 +708,10 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
             >
               <h4 className="font-serif text-lg font-bold text-[#2C2523]">{dict.step3}</h4>
               <form
-                action="https://formsubmit.co/REPLACE_WITH_MY_EMAIL"
+                action="https://formsubmit.co/learsiando%40gmail.com"
                 method="POST"
                 target="_blank"
                 rel="noopener noreferrer"
-                onSubmit={handleConfirmReservation}
                 className="space-y-4 font-sans text-left"
               >
                 <input type="hidden" name="service" value={selectedService?.name[lang] || selectedService?.name.en || ''} />

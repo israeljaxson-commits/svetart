@@ -263,6 +263,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
   const [clientPhone, setClientPhone] = useState('');
   const [clientEmail, setClientEmail] = useState('');
   const [clientNotes, setClientNotes] = useState('');
+  const [referenceCode, setReferenceCode] = useState('');
   const [validationError, setValidationError] = useState('');
 
   // Confirmed booking state
@@ -409,29 +410,33 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
   };
 
   // Submit Booking
-  const handleConfirmReservation = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleConfirmReservation = (e: React.FormEvent<HTMLFormElement>) => {
     if (!clientName.trim()) {
+      e.preventDefault();
       setValidationError(dict.nameReq);
       return;
     }
     if (!clientPhone.trim() || clientPhone.length < 6) {
+      e.preventDefault();
       setValidationError(dict.phoneReq);
       return;
     }
     if (!clientEmail.trim() || !clientEmail.includes('@')) {
+      e.preventDefault();
       setValidationError(dict.emailReq);
       return;
     }
 
-    if (!selectedService || !selectedDate || !selectedTime) return;
+    if (!selectedService || !selectedDate || !selectedTime) {
+      e.preventDefault();
+      return;
+    }
 
     const formattedDateStr = getDateString(selectedDate);
     const codeSuffix = Math.floor(1000 + Math.random() * 9000);
     const monthCode = String(selectedDate.getMonth() + 1).padStart(2, '0');
     const dayCode = String(selectedDate.getDate()).padStart(2, '0');
-    const referenceCode = `SV-${currentYear % 100}${monthCode}${dayCode}-${codeSuffix}`;
+    const generatedReferenceCode = `SV-${currentYear % 100}${monthCode}${dayCode}-${codeSuffix}`;
 
     const newBooking: Booking = {
       id: `booking-${Date.now()}`,
@@ -444,34 +449,26 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
       clientPhone,
       clientEmail,
       clientNotes,
-      referenceCode,
+      referenceCode: generatedReferenceCode,
       createdAt: new Date().toISOString()
     };
 
     const updatedBookings = [...activeBookings, newBooking];
     setActiveBookings(updatedBookings);
     setLastConfirmedBooking(newBooking);
+    setReferenceCode(generatedReferenceCode);
     localStorage.setItem('svetart_luxury_bookings', JSON.stringify(updatedBookings));
 
-    // Send booking to server for persistence (best-effort)
-    (async () => {
-      try {
-        await fetch('/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newBooking),
-        });
-      } catch (err) {
-        console.error('Failed to POST booking to server', err);
-      }
-    })();
-
-    // Disable locally to simulate actual booking persistence
     const newSlotId = getSlotId(selectedDate, selectedTime);
     setSimulatedBookedSlots(prev => ({
       ...prev,
       [newSlotId]: true
     }));
+
+    const referenceInput = e.currentTarget.querySelector<HTMLInputElement>('input[name="reference"]');
+    if (referenceInput) {
+      referenceInput.value = generatedReferenceCode;
+    }
 
     if (onBookingComplete) {
       onBookingComplete(newBooking);
@@ -776,7 +773,20 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
               className="space-y-4 font-sans"
             >
               <h4 className="font-serif text-lg font-bold text-[#2C2523]">{dict.step3}</h4>
-              <form onSubmit={handleConfirmReservation} className="space-y-4 font-sans text-left">
+              <form
+                action="https://formsubmit.co/REPLACE_WITH_MY_EMAIL"
+                method="POST"
+                target="_blank"
+                rel="noopener noreferrer"
+                onSubmit={handleConfirmReservation}
+                className="space-y-4 font-sans text-left"
+              >
+                <input type="hidden" name="service" value={selectedService?.name[lang] || selectedService?.name.en || ''} />
+                <input type="hidden" name="serviceId" value={selectedService?.id || ''} />
+                <input type="hidden" name="duration" value={selectedService?.duration || ''} />
+                <input type="hidden" name="date" value={selectedDate ? getDateString(selectedDate) : ''} />
+                <input type="hidden" name="time" value={selectedTime || ''} />
+                <input type="hidden" name="reference" value={referenceCode} />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5 column-wrap">
@@ -787,6 +797,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D9A7A7]" />
                       <input
                         type="text"
+                        name="name"
                         required
                         placeholder="e.g. Maria Popescu"
                         className="w-full text-xs pl-11 pr-4 py-3.5 rounded-2xl border border-[#D9A7A7]/20 bg-white focus:outline-none focus:ring-2 focus:ring-[#B67C7C]/30 text-[#2C2523] font-semibold"
@@ -804,6 +815,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D9A7A7]" />
                       <input
                         type="tel"
+                        name="phone"
                         required
                         placeholder="e.g. +373 79 123 456"
                         className="w-full text-xs pl-11 pr-4 py-3.5 rounded-2xl border border-[#D9A7A7]/20 bg-white focus:outline-none focus:ring-2 focus:ring-[#B67C7C]/30 text-[#2C2523] font-semibold"
@@ -822,6 +834,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#D9A7A7]" />
                     <input
                       type="email"
+                      name="email"
                       required
                       placeholder="e.g. maria.popescu@gmail.com"
                       className="w-full text-xs pl-11 pr-4 py-3.5 rounded-2xl border border-[#D9A7A7]/20 bg-white focus:outline-none focus:ring-2 focus:ring-[#B67C7C]/30 text-[#2C2523] font-semibold"

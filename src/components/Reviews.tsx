@@ -28,18 +28,18 @@ const localReviewsT = {
     clientsServed: 'Clients Served',
     certified: 'Certified',
     rev1: {
-      treatment: 'Structured Gel Manicure',
-      feedback: 'A absolute masterpiece of nail structure! My nails have never looked so perfectly aligned. Usually, gel overlays can feel bulky, but Svetlana models thin, incredibly strong arches. There is literally no chipping even after four weeks.',
+      treatment: 'Hygienic Manicure',
+      feedback: 'My nails have never looked so clean and healthy. Svetlana is incredibly meticulous with cuticle care and shaping. The sterile environment gives me complete peace of mind every visit.',
       date: 'June 2026',
     },
     rev2: {
-      treatment: 'Italian Lash Lamination',
-      feedback: 'The InLei Lash Filler treatment is a literal miracle. My natural lashes look elevated, dark, and long without active mascara use. Svetlana is so gentle, highly meticulous, and explains every treatment step with warm details.',
+      treatment: 'Eyelash Lamination',
+      feedback: 'The eyelash lamination is absolutely stunning. My natural lashes look lifted, dark, and long without any mascara. Svetlana is gentle, highly meticulous, and explains every step with warm details.',
       date: 'May 2026',
     },
     rev3: {
-      treatment: 'SvetArt Signature Look',
-      feedback: 'The only studio in Chisinau I fully trust for sterile treatment. Svetlana opens the medical autoclave pouch with certified chemical color indicators right in front of your eyes. Sterile Class B autoclave combined with the touch of an elite artist is unmatched.',
+      treatment: 'Eyelash + Eyebrow Lamination',
+      feedback: 'The only studio in Chisinau I fully trust for sterile treatment. Svetlana opens the medical autoclave pouch with certified indicators right in front of you. The combined lash and brow lamination is flawless.',
       date: 'April 2026',
     }
   },
@@ -53,18 +53,18 @@ const localReviewsT = {
     clientsServed: 'Cliente Fericite',
     certified: 'Certificat',
     rev1: {
-      treatment: 'Manichiură cu Gel Structurat',
-      feedback: 'O adevărată capodoperă a structurii unghiilor! Unghiile mele nu au arătat niciodată atât de perfect aliniate. De obicei baza poate arăta butucănoasă, dar Svetlana modelează arcuri subțiri și extrem de rezistente. Fără ciobiri chiar și după 4 săptămâni!',
+      treatment: 'Manichiură Igienică',
+      feedback: 'Unghiile mele nu au arătat niciodată atât de curate și sănătoase. Svetlana este extrem de meticuloasă cu îngrijirea cuticulei. Mediul steril îmi oferă liniște deplină la fiecare vizită.',
       date: 'Iunie 2026',
     },
     rev2: {
-      treatment: 'Laminare Gene Italiană',
-      feedback: 'Laminarea cu InLei Lash Filler este o minune curată. Genele mele naturale par ridicate, intens negre și lungi fără niciun strop de rimel. Svetlana este atât de fină, extrem de meticuloasă și îți explică fiecare etapă cu drag.',
+      treatment: 'Laminare Gene',
+      feedback: 'Laminarea genelor este absolut superbă. Genele mele naturale par ridicate, negre și lungi fără niciun strop de rimel. Svetlana este fină, meticuloasă și explică fiecare etapă cu drag.',
       date: 'Mai 2026',
     },
     rev3: {
-      treatment: 'Look Semnătură SvetArt',
-      feedback: 'Singurul salon din Chișinău pe care îl vizitez cu inima împăcată în privința sterilizării. Svetlana deschide punga de la autoclav cu indicatori de culoare chiar în fața ochilor tăi. Autoclavul de Clasa B medicală unit cu talentul ei este de neprețuit.',
+      treatment: 'Laminare Gene + Sprâncene',
+      feedback: 'Singurul salon din Chișinău pe care îl vizitez cu inima împăcată în privința sterilizării. Svetlana deschide punga de la autoclav chiar în fața ochilor tăi. Laminarea combinată gene și sprâncene este impecabilă.',
       date: 'Aprilie 2026',
     }
   },
@@ -78,18 +78,18 @@ const localReviewsT = {
     clientsServed: 'Довольных клиентов',
     certified: 'Сертифицировано',
     rev1: {
-      treatment: 'Структурированный гелевый маникюр',
-      feedback: 'Настоящий шедевр архитектуры ногтей! Мои ногти еще никогда не выглядели настолько ровными и аккуратными. Обычно укрепление выглядит громоздко, но Светлана моделирует утонченные и невероятно прочные ногти. Покрытие держится абсолютно без сколов более 4 недель!',
+      treatment: 'Гигиенический маникюр',
+      feedback: 'Мои ногти ещё никогда не выглядели настолько чистыми и здоровыми. Светлана невероятно внимательна к обработке кутикулы. Стерильная обстановка даёт полное спокойствие при каждом визите.',
       date: 'Июнь 2026',
     },
     rev2: {
-      treatment: 'Итальянское ламинирование ресниц',
-      feedback: 'Ламинирование составом InLei Lash Filler — это полное чудо. Мои натуральные ресницы выглядят приподнятыми, густыми и длинными без всякой туши. Светлана очень нежный и внимательный мастер, подробно и с любовью рассказывающий о каждом шаге.',
+      treatment: 'Ламинирование ресниц',
+      feedback: 'Ламинирование ресниц — потрясающий результат. Мои натуральные ресницы выглядят приподнятыми, густыми и длинными без всякой туши. Светлана очень нежный и внимательный мастер.',
       date: 'Май 2026',
     },
     rev3: {
-      treatment: 'Фирменный комплекс SvetArt Signature',
-      feedback: 'Единственный салон в Кишиневе, где я полностью спокойна за стерилизацию. Светлана вскрывает крафт-пакет со стерильными инструментами из автоклава медицинского класса B прямо при мне. Такое отношение к безопасности в сочетании с ее талантом — бесценно.',
+      treatment: 'Ламинирование ресниц + бровей',
+      feedback: 'Единственный салон в Кишиневе, где я полностью спокойна за стерилизацию. Светлана вскрывает крафт-пакет из автоклава прямо при мне. Комбинированное ламинирование безупречно.',
       date: 'Апрель 2026',
     }
   }

@@ -13,8 +13,8 @@ export default function About() {
   const achievements = [
     {
       icon: <Award className="w-5 h-5 text-[#B67C7C]" />,
-      title: t.about.achievements[0]?.title || 'Certified Master of Gel & Lamination',
-      desc: t.about.achievements[0]?.desc || '12 international accreditation courses spanning advanced French styling, lash architecture, and sterile care.',
+      title: t.about.achievements[0]?.title || 'Certified Manicure & Lamination Master',
+      desc: t.about.achievements[0]?.desc || 'International accreditation in manicure, pedicure, and professional lamination techniques.',
     },
     {
       icon: <ShieldCheck className="w-5 h-5 text-[#B67C7C]" />,
@@ -24,7 +24,7 @@ export default function About() {
     {
       icon: <Heart className="w-5 h-5 text-[#B67C7C]" />,
       title: t.about.achievements[2]?.title || 'Premium Hypoallergenic Materials',
-      desc: t.about.achievements[2]?.desc || 'Curation of the world’s finest non-toxic gel polishes, builder gels, and lamination liquids.',
+      desc: t.about.achievements[2]?.desc || 'Professional-grade products for manicure, pedicure, and InLei® lamination treatments.',
     },
   ];
 

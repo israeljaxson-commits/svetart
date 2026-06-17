@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { BOOKING_SERVICE_OPTIONS } from '../data/services';
 
-export default function BookingSystem() {
+export default function BookingSystem({ preselectedService = '' }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [service, setService] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [specialRequest, setSpecialRequest] = useState('');
@@ -26,6 +28,12 @@ export default function BookingSystem() {
       setMinTime(isoTime);
     }
   }, [defaultNextUrl]);
+
+  useEffect(() => {
+    if (preselectedService && BOOKING_SERVICE_OPTIONS.includes(preselectedService)) {
+      setService(preselectedService);
+    }
+  }, [preselectedService]);
 
   const effectiveMinTime = date === minDate ? minTime : '00:00';
 
@@ -62,7 +70,7 @@ export default function BookingSystem() {
             <p className="text-sm uppercase tracking-[0.35em] text-[#8C6D66] font-semibold">Reserve your appointment</p>
             <h2 className="mt-4 text-4xl md:text-5xl font-serif font-bold text-[#2C2523]">Book Your Session</h2>
             <div className="mx-auto mt-5 h-1.5 w-24 rounded-full bg-gradient-to-r from-[#B67C7C] via-[#E7D3C1] to-[#D8A3A3] shadow-soft" />
-            <p className="mt-6 text-base text-stone-600 max-w-2xl mx-auto">Enter your name, phone, preferred date and time. The owner receives an email immediately when you submit.</p>
+            <p className="mt-6 text-base text-stone-600 max-w-2xl mx-auto">Select your service, enter your details and preferred date and time. The owner receives an email immediately when you submit.</p>
           </div>
         </div>
 
@@ -80,6 +88,22 @@ export default function BookingSystem() {
           <input type="hidden" name="_subject" value="New booking request from SvetArt" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_next" value={nextUrl || defaultNextUrl} />
+
+          <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
+            <span className="text-sm font-semibold text-stone-700">Service</span>
+            <select
+              name="service"
+              value={service}
+              onChange={(e) => setService(e.target.value)}
+              required
+              className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60 appearance-none cursor-pointer"
+            >
+              <option value="" disabled>Select a service</option>
+              {BOOKING_SERVICE_OPTIONS.map((option) => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+          </label>
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
             <span className="text-sm font-semibold text-stone-700">Full name</span>

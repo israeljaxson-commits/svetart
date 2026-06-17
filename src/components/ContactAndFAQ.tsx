@@ -6,7 +6,8 @@
 import { useState } from 'react';
 import { ChevronDown, Clock, MapPin, Instagram, Sparkles, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage, getLocalizedFaqs } from '../context/LanguageContext';
+import { getServiceByBookingName } from '../data/services';
 
 interface FaqItem {
   id: string;
@@ -19,82 +20,13 @@ interface ContactAndFAQProps {
   onClearPreselection?: () => void;
 }
 
-const localFaqs = {
-  en: [
-    {
-      id: 'faq-1',
-      question: 'What is a "Structured Gel Manicure" and how does it differ from standard gel polish?',
-      answer: "Standard gel polish is painted flat. In a Structured Gel Manicure, Svetlana models a dynamic anatomical arch (the apex) using self-leveling fiber builder gels. This distributes mechanical stress, strengthens natural nail beds, prevents cracking, and results in a beautiful linear light reflection. It routinely persists without chips for up to 5 weeks.",
-    },
-    {
-      id: 'faq-2',
-      question: 'How long does Italian Lash Lamination last?',
-      answer: "Lash lamination lifts and tinting results persist for 6 to 8 weeks, following your natural lash shedding cycle. Formulated with InLei® Lash Filler, the treatment clinically thickens natural hair diameters up to 24% across three consecutive sessions. No mascara is needed, and it is fully waterproof within 24 hours.",
-    },
-    {
-      id: 'faq-3',
-      question: 'Are your cosmetic lamination substances safe?',
-      answer: "Absolutely. SvetArt uses elite Italian formulations (InLei®) and premium Russian pigments (BrowXenna®) that are dermatologically evaluated, hypoallergenic, non-toxic, and enriched with organic keratin, peptides, and natural castor oils to encourage real-time lash/brow growth.",
-    },
-    {
-      id: 'faq-4',
-      question: 'Can I reschedule an existing social booking?',
-      answer: "Yes, you can reschedule. Because SvetArt operates on an exclusive, low-density private booking calendar, we kindly request at least 24 hours advance notice via Instagram or our social concierge to allow clients on the waiting list to fill your slot.",
-    },
-  ],
-  ro: [
-    {
-      id: 'faq-1',
-      question: 'Ce este o „Manichiură Structurată cu Gel” și cum diferă de oja semipermanentă standard?',
-      answer: 'Oja semipermanentă standard se aplică plat. Între o Manichiură Structurată, Svetlana modelează o curbă anatomică dinamică (apexul) folosind geluri de construcție autonivelante. Acest lucru distribuie tensiunea mecanică, protejează și întărește patul unghial, prevenind crăparea și obținând un blic ideal de lumină. Rezistă fără nicio ciobire până la 5 săptămâni.',
-    },
-    {
-      id: 'faq-2',
-      question: 'Cât timp durează Laminarea de Gene Italiană?',
-      answer: 'Rezultatele de ridicare și nuanțare persistă între 6 și 8 săptămâni, în funcție de ciclul natural de creștere al genelor tale. Formulat cu InLei® Lash Filler, tratamentul îngroașă firele naturale cu până la 24% în trei ședințe consecutive. Nu este nevoie de rimel și devine complet rezistent la apă după 24 de ore.',
-    },
-    {
-      id: 'faq-3',
-      question: 'Sunt sigure substanțele cosmetice utilizate la laminare?',
-      answer: 'Absolut. SvetArt folosește exclusiv formule italiene de elită (InLei®) și pigmenți premium rusești (BrowXenna®) care sunt evaluați dermatologic, hipoalergenici, non-toxici și îmbogățiți cu keratină organică, peptide și ulei natural de ricin pentru a stimula creșterea.',
-    },
-    {
-      id: 'faq-4',
-      question: 'Pot reprograma o programare socială existentă?',
-      answer: 'Da, poți reprograma. Deoarece SvetArt funcționează pe baza unui calendar privat exclusiv, cu densitate scăzută, te rugăm să transmiți o notificare cu cel puțin 24 de ore înainte prin Instagram sau prin serviciul nostru Concierge Social pentru a permite clienților din lista de așteptare să ocupe slotul.',
-    },
-  ],
-  ru: [
-    {
-      id: 'faq-1',
-      question: 'Что такое «структурированный гелевый маникюр» и чем он отличается от обычного гель-лака?',
-      answer: 'При обычном покрытии гель-лак наносится ровным слоем под ногти. В структурированном гелевом маникюре мастер выстраивает анатомически правильную архитектуру и апекс с помощью самовыравнивающихся укрепляющих гелей. Это распределяет нагрузку на ноготь, укрепляет его, предотвращает трещины и отслойки, а также создает идеальный линейный блик. Покрытие держится абсолютно без сколов до 5 недель.',
-    },
-    {
-      id: 'faq-2',
-      question: 'Как долго держится итальянское ламинирование ресниц?',
-      answer: 'Эффект лифтинга и окрашивания сохраняется от 6 до 8 недель, в зависимости от естественного цикла обновления ваших ресниц. Благодаря профессиональному составу InLei® Lash Filler ресницы утолщаются на 24% после трех последовательных процедур. Использование туши больше не потребуется, а умываться можно уже через 24 часа.',
-    },
-    {
-      id: 'faq-3',
-      question: 'Безопасны ли косметические составы для ламинирования?',
-      answer: 'Абсолютно. SvetArt работает исключительно с элитными итальянскими составами (InLei®) и российскими пигментами премиум-класса (BrowXenna®). Все средства прошли клинические испытания, гипоаллергенны, не токсичны и обогащены органическим кератином, пептидами икасторовым маслом для стимуляции роста собственных волосков.',
-    },
-    {
-      id: 'faq-4',
-      question: 'Можно ли перенести подтвержденную запись?',
-      answer: 'Да, конечно. Поскольку салон SvetArt работает по индивидуальному календарю высокой точности с комфортной плотностью записей, мы убедительно просим предупреждать о переносе минимум за 24 часа через Instagram или через наш социальный консьерж, чтобы мы могли предложить освободившееся время другим клиентам.',
-    },
-  ]
-};
-
 export default function ContactAndFAQ({ selectedServiceName = '', onClearPreselection }: ContactAndFAQProps) {
   const { lang, t } = useLanguage();
   const [openFaqId, setOpenFaqId] = useState<string | null>('faq-1');
 
-  const businessPhone = '37379166006'; // format: MD code
-
-  const faqs: FaqItem[] = localFaqs[lang] || localFaqs.en;
+  const faqs: FaqItem[] = getLocalizedFaqs(lang);
+  const preselected = selectedServiceName ? getServiceByBookingName(selectedServiceName) : undefined;
+  const preselectedLabel = preselected ? preselected[lang].name : selectedServiceName;
 
   // WhatsApp redirect removed
 
@@ -235,7 +167,7 @@ export default function ContactAndFAQ({ selectedServiceName = '', onClearPresele
                   >
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-[#D9A7A7] block font-bold mb-0.5">{t.faq.preselectedService}</span>
-                      <p className="font-serif text-sm text-white font-semibold italic">"{selectedServiceName}"</p>
+                      <p className="font-serif text-sm text-white font-semibold italic">"{preselectedLabel}"</p>
                     </div>
                     {onClearPreselection && (
                       <button

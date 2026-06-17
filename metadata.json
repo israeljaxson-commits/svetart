@@ -1,6 +1,5 @@
 {
-  "name": "SVETA ART",
-  "description": "Luxury beauty studio specializing in elite manicures, lash lamination, and bespoke brow tinting of premium caliber.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "name": "SvetArt Beauty Studio",
+  "description": "Professional manicure, pedicure, and lash & brow lamination studio in Chișinău. Services include hygienic manicure, nail extensions, aesthetic pedicure, eyelash & eyebrow lamination, and training courses.",
+  "requestFramePermissions": []
 }

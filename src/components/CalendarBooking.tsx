@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { Calendar, Clock, User, Phone, Mail, ArrowLeft, ArrowRight, Check, CheckCircle2, AlertCircle, Sparkles, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
+import { SALON_SERVICES } from '../data/services';
 
 export interface Booking {
   id: string;
@@ -28,79 +29,25 @@ interface CalendarBookingProps {
   onBookingComplete?: (booking: Booking) => void;
 }
 
-const SERVICES_DATA = [
-  {
-    id: 'gel-mani',
-    name: {
-      en: 'Structured Gel Manicure',
-      ro: 'Manichiură Structurată cu Gel',
-      ru: 'Структурированный Маникюр'
-    },
-    duration: '90m',
-    
-    materials: {
-      en: ' Bio-Gel & Luxury Pigments',
-      ro: 'Bio-Gel  și Pigmenți de Lux',
-      ru: 'Японский  и люкс-пигменты'
-    }
+const SERVICES_DATA = SALON_SERVICES.map((s) => ({
+  id: s.id,
+  name: {
+    en: s.en.name,
+    ro: s.ro.name,
+    ru: s.ru.name,
   },
-  {
-    id: 'french-overlay',
-    name: {
-      en: 'Elegant French Overlay',
-      ro: 'French Overlay Semnătură',
-      ru: 'Элегантный Френч Дизайн' 
-    },
-    duration: '105m',
-    materials: {
-      en: 'Hypoallergenic Self-leveling Gels',
-      ro: 'Geluri Autonivelante Hipoalergenice',
-      ru: 'Гипоаллергенные самовыравнивающиеся гели'
-    }
+  duration: s.category === 'lamination' ? '65m' : s.category === 'pedicure' ? '60m' : '75m',
+  materials: {
+    en: s.en.materials,
+    ro: s.ro.materials,
+    ru: s.ru.materials,
   },
-  {
-    id: 'lash-lift',
-    name: {
-      en: 'Italian Lash Lamination',
-      ro: 'Laminare de Gene Italiană',
-      ru: 'Итальянское Ламинирование Ресниц'
-    },
-    duration: '65m',
-    materials: {
-      en: 'InLei® Lash Filler (Made in Italy)',
-      ro: 'InLei® Lash Filler (Fabricat în Italia)',
-      ru: 'InLei® Lash Filler (Италия)'
-    }
+  price: {
+    en: s.en.price,
+    ro: s.ro.price,
+    ru: s.ru.price,
   },
-  {
-    id: 'brow-arch',
-    name: {
-      en: 'Elite Brow Architecture',
-      ro: 'Arhitectură Sprâncene de Elită',
-      ru: 'Элитная Архитектура Бровей'
-    },
-    duration: '45m',
-    materials: {
-      en: 'Premium BrowXenna® Organic Pigments',
-      ro: 'Pigmenți Organici Premium BrowXenna®',
-      ru: 'Органические пигменты BrowXenna®'
-    }
-  },
-  {
-    id: 'luxury-combo',
-    name: {
-      en: 'SvetArt Signature Look',
-      ro: 'Look Semnătură SvetArt',
-      ru: 'Фирменный образ SvetArt Signature'
-    },
-    duration: '140m',
-    materials: {
-      en: 'Elite European formulas & prosecco',
-      ro: 'Formule Europene Supreme & prosecco',
-      ru: 'Премиальные европейские составы и просекко'
-    }
-  }
-];
+}));
 
 const LOCALES = {
   en: {

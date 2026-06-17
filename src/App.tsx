@@ -12,11 +12,7 @@ import Gallery from './components/Gallery';
 import Reviews from './components/Reviews';
 import ContactAndFAQ from './components/ContactAndFAQ';
 import Footer from './components/Footer';
-import { motion, AnimatePresence } from 'motion/react';
-import { useLanguage } from './context/LanguageContext';
-
 export default function App() {
-  const { lang, t } = useLanguage();
   const [selectedService, setSelectedService] = useState('')
   
 
@@ -97,7 +93,7 @@ export default function App() {
 
           {/* 5. Customer Reviews Section */}
           <Reviews />
-          <BookingSystem />
+          <BookingSystem preselectedService={selectedService} />
           {/* 6. Contact, Promotions & FAQ Section */}
           <ContactAndFAQ
             selectedServiceName={selectedService}

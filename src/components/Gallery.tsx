@@ -22,96 +22,96 @@ interface InstagramPost {
 
 const localLookbookT = {
   en: {
-    comparisonTitle: "Lash Lamination & Lift Comparison",
-    comparisonSub: "Drag the rose slider to compare natural lashes and 1 session of Italian Lash Filler.",
+    comparisonTitle: "Eyelash Lamination Comparison",
+    comparisonSub: "Drag the rose slider to compare natural lashes and 1 session of professional lamination.",
     beforeLabel: "Natural (Before)",
     feedTitle: "SvetArt Lookbook Feed",
-    feedSub: "Interactive preview of our latest laboratory releases on social media.",
+    feedSub: "Interactive preview of our latest manicure, pedicure, and lamination work.",
     post1: {
-      treatment: 'Structured Gel Ivory',
-      caption: 'Pure symmetry on natural nail beds. Building structural arches with premium gel bases allows this exquisite glossy shine to persist over 5 weeks. No chips, pure alignment.',
+      treatment: 'Hygienic Manicure',
+      caption: 'Clean, healthy nails with precise cuticle care and a polished finish. The foundation of every beautiful manicure at SvetArt.',
     },
     post2: {
-      treatment: 'Bespoke Italian French',
-      caption: 'Fine lines of pure satisfaction. Each smile line is calibrated matching individual finger dimensions for optimal elongation. Hand-painted with deep devotion.',
+      treatment: 'Nail Extensions',
+      caption: 'Custom nail extensions shaped to perfection. Professional length and architecture tailored to your style.',
     },
     post3: {
-      treatment: 'Italian Lash Lamination',
-      caption: 'Opening the gaze effortlessly. Lash Filler lamination thickens lashes up to 24% over 3 sessions while creating a perfect, persistent curl. Wake up looking flawless.',
+      treatment: 'Eyelash Lamination',
+      caption: 'A lifted, defined curl that enhances your natural lashes for weeks. Wake up with a camera-ready gaze.',
     },
     post4: {
-      treatment: 'Bespoke Brow Architecture',
-      caption: 'Golden ratio brow tailoring. Correcting asymmetric shapes through pristine wax mapping and premium organic tint infusions. Frames the face beautifully.',
+      treatment: 'Eyebrow Lamination',
+      caption: 'Fuller, groomed brows with hairs set in a uniform direction. A polished frame for your face.',
     },
     post5: {
-      treatment: 'Ultra Gloss Top-coat overlay',
-      caption: 'That flawless reflection coefficient. A visual test of perfect structural curves: notice how light rays reflect linearly across the nail face. Craftsmanship lives here.',
+      treatment: 'Aesthetic Pedicure',
+      caption: 'Silky smooth feet with deep cleansing, exfoliation, and a premium finish. Pure comfort and elegance.',
     },
     post6: {
-      treatment: 'Lash & Brow Combo Ritual',
-      caption: 'SvetArt Signature Look ready for holidays. Deep laminations paired with natural organic shades. Zero mascara, zero morning worries.',
+      treatment: 'Eyelash + Eyebrow Lamination',
+      caption: 'Harmonized lash and brow lamination in one session. The complete SvetArt look, effortlessly refined.',
     }
   },
   ro: {
-    comparisonTitle: "Laminare de Gene & Sprâncene - Înainte / După",
+    comparisonTitle: "Laminare Gene — Înainte / După",
     comparisonSub: "Trage de glisor pentru a compara genele naturale cu rezultatul după laminare.",
     beforeLabel: "Natural (Înainte)",
-    feedTitle: "Lookbook Social",
-    feedSub: "Previzualizare interactivă a celor mai recente lucrări pe rețelele sociale.",
+    feedTitle: "Lookbook SvetArt",
+    feedSub: "Previzualizare interactivă a celor mai recente lucrări de manichiură, pedichiură și laminare.",
     post1: {
-      treatment: 'Gel Structurat Ivory',
-      caption: 'Simetrie pură pe patul unghial natural. Construirea apexului cu geluri de înaltă calitate permite rezistența culorii timp de peste 5 săptămâni.',
+      treatment: 'Manichiură Igienică',
+      caption: 'Unghii curate și sănătoase cu îngrijire precisă a cuticulei. Baza fiecărei manichiuri frumoase la SvetArt.',
     },
     post2: {
-      treatment: 'Manichiură French Personalizată',
-      caption: 'Linii fine de satisfacție totală. Fiecare linie de zâmbet este calibrată manual la proporțiile degetelor tale.',
+      treatment: 'Extensii Unghii',
+      caption: 'Extensii personalizate modelate la perfecțiune. Lungime și arhitectură profesională adaptate stilului tău.',
     },
     post3: {
-      treatment: 'Laminare Gene Italiană',
-      caption: 'Privire deschisă fără efort. Produsul InLei® Lash Filler îngroașă genele naturale cu până la 24%.',
+      treatment: 'Laminare Gene',
+      caption: 'O curbă ridicată care evidențiază genele naturale săptămâni întregi. Privire gata de fotografiat.',
     },
     post4: {
-      treatment: 'Arhitectură Sprâncene de Lux',
-      caption: 'Modelarea sprâncenelor conform secțiunii de aur. Corectarea formelor asimetrice prin ceară organică și pensat de precizie.',
+      treatment: 'Laminare Sprâncene',
+      caption: 'Sprâncene mai pline, aranjate uniform. Un cadru îngrijit pentru fața ta.',
     },
     post5: {
-      treatment: 'Top Coat Ultra Glossy',
-      caption: 'Reflexia perfectă a luminii. Testul vizual al structurii ideale: lumina se reflectă liniar pe suprafața unghiei.',
+      treatment: 'Pedichiură Estetică',
+      caption: 'Picioare catifelate cu curățare profundă, exfoliere și finisaj premium. Confort și eleganță pură.',
     },
     post6: {
-      treatment: 'Tratament Pachet Combo',
-      caption: 'Lookul semnătură SvetArt gata pentru orice ocazie. Laminări profunde combinate cu nuanțe organice durabile.',
+      treatment: 'Laminare Gene + Sprâncene',
+      caption: 'Laminare armonizată gene și sprâncene într-o singură ședință. Look-ul complet SvetArt, rafinat fără efort.',
     }
   },
   ru: {
     comparisonTitle: "Ламинирование ресниц — До и После",
-    comparisonSub: "Перемещайте розовый слайдер, чтобы сравнить ресницы до и после процедуры InLei®.",
+    comparisonSub: "Перемещайте розовый слайдер, чтобы сравнить ресницы до и после ламинирования.",
     beforeLabel: "Натуральные (До)",
     feedTitle: "Лукбук SvetArt",
-    feedSub: "Интерактивная подборка наших последних работ в социальных сетях.",
+    feedSub: "Интерактивная подборка наших последних работ: маникюр, педикюр и ламинирование.",
     post1: {
-      treatment: 'Гелевый маникюр Слоновая Кость',
-      caption: 'Чистая симметрия на ногтях. Архитектурное укрепление премиальными гелями сохраняет безупречный вид и прочность до 5 недель.',
+      treatment: 'Гигиенический маникюр',
+      caption: 'Чистые, здоровые ногти с точным уходом за кутикулой. Основа каждого красивого маникюра в SvetArt.',
     },
     post2: {
-      treatment: 'Индивидуальный френч',
-      caption: 'Безукоризненная прорисовка улыбки. Каждая линия калибруется под естественные пропорции ваших пальцев.',
+      treatment: 'Наращивание ногтей',
+      caption: 'Индивидуальное наращивание с идеальной формой. Профессиональная длина и архитектура под ваш стиль.',
     },
     post3: {
-      treatment: 'Итальянское ламинирование ресниц',
-      caption: 'Выразительный взгляд без усилий. Состав Lash Filler клинически утолщает натуральные ресницы на 24% за три сеанса.',
+      treatment: 'Ламинирование ресниц',
+      caption: 'Выразительный изгиб, подчёркивающий натуральные ресницы на несколько недель. Взгляд готов к камере.',
     },
     post4: {
-      treatment: 'Архитектура бровей по Золотому Сечению',
-      caption: 'Исправление асимметрии с помощью точной коррекции и стойкого окрашивания органическими пигментами.',
+      treatment: 'Ламинирование бровей',
+      caption: 'Более густые, уложенные брови. Аккуратное обрамление лица.',
     },
     post5: {
-      treatment: 'Зеркальный глянцевый топ',
-      caption: 'Идеальный блик. Визуальный тест правильной архитектуры ногтя: световая линия отражается абсолютно ровно.',
+      treatment: 'Эстетический педикюр',
+      caption: 'Гладкие стопы с глубоким очищением, пилингом и премиальным финишем. Комфорт и элегантность.',
     },
     post6: {
-      treatment: 'Премиум-комплекс для ресниц и бровей',
-      caption: 'Фирменный комплекс SvetArt для безупречного внешнего вида. Ноль косметики, идеальный результат каждое утро.',
+      treatment: 'Ламинирование ресниц + бровей',
+      caption: 'Гармоничное ламинирование ресниц и бровей за один визит. Полный образ SvetArt без усилий.',
     }
   }
 };
@@ -135,7 +135,7 @@ export default function Gallery() {
       comments: 24,
       treatment: st.post1.treatment,
       caption: st.post1.caption,
-      tags: ['#GelManicure', '#SvetlanaAesthetics', '#NailArchitecture', '#NudeGlam'],
+      tags: ['#HygienicManicure', '#SvetArtBeauty', '#Manicure', '#NailCare'],
       gridClass: 'lg:col-span-1 lg:row-span-2',
       heightClass: 'aspect-[3/4.5] lg:h-full min-h-[460px]'
     },
@@ -146,7 +146,7 @@ export default function Gallery() {
       comments: 31,
       treatment: st.post2.treatment,
       caption: st.post2.caption,
-      tags: ['#FrenchManicure', '#CoutureNails', '#ChisinauBeauty', '#EliteArtistry'],
+      tags: ['#NailExtensions', '#Manicure', '#ChisinauBeauty', '#SvetArt'],
       gridClass: 'lg:col-span-1',
       heightClass: 'aspect-square h-[300px] lg:h-[340px]'
     },
@@ -155,7 +155,7 @@ export default function Gallery() {
       image: lamination,
       treatment: st.post3.treatment,
       caption: st.post3.caption,
-      tags: ['#LashLamination', '#InLeiLashFiller', '#EyeGaze', '#EyelashPerm'],
+      tags: ['#EyelashLamination', '#InLei', '#LashLift', '#SvetArt'],
       gridClass: 'lg:col-span-1',
       heightClass: 'aspect-square h-[300px] lg:h-[340px]'
     },
@@ -166,7 +166,7 @@ export default function Gallery() {
       comments: 19,
       treatment: st.post4.treatment,
       caption: st.post4.caption,
-      tags: ['#BrowArchitecture', '#EyebrowTinting', '#BeautyBySvetlana', '#FacialSymmetry'],
+      tags: ['#EyebrowLamination', '#BrowCare', '#BeautyBySvetlana', '#SvetArt'],
       gridClass: 'lg:col-span-1',
       heightClass: 'aspect-square h-[300px] lg:h-[340px]'
     },
@@ -177,7 +177,7 @@ export default function Gallery() {
       comments: 37,
       treatment: st.post5.treatment,
       caption: st.post5.caption,
-      tags: ['#FlawlessNails', '#JapaneseGel', '#RussianHardware', '#SvetArtLook'],
+      tags: ['#AestheticPedicure', '#Pedicure', '#FootCare', '#SvetArt'],
       gridClass: 'lg:col-span-1 lg:row-span-2',
       heightClass: 'aspect-[3/4.5] lg:h-full min-h-[460px]'
     },
@@ -188,7 +188,7 @@ export default function Gallery() {
       comments: 43,
       treatment: st.post6.treatment,
       caption: st.post6.caption,
-      tags: ['#SignatureRitual', '#LaminationLounge', '#EffortlessGlow', '#ClaraVibe'],
+      tags: ['#LashBrowCombo', '#Lamination', '#SvetArtBeauty', '#Chisinau'],
       gridClass: 'lg:col-span-1',
       heightClass: 'aspect-square h-[300px] lg:h-[340px]'
     }

@@ -38,6 +38,12 @@ export default function BookingSystem() {
     }
   }, []);
 
+  useEffect(() => {
+    if (!submitted) return;
+    const timer = window.setTimeout(() => setSubmitted(false), 5000);
+    return () => window.clearTimeout(timer);
+  }, [submitted]);
+
   return (
     <section id="booking" className="py-28 bg-[#F8F0EE]">
       <div className="max-w-3xl mx-auto px-6 md:px-12">

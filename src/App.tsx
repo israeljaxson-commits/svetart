@@ -12,6 +12,7 @@ import Gallery from './components/Gallery';
 import Reviews from './components/Reviews';
 import ContactAndFAQ from './components/ContactAndFAQ';
 import Footer from './components/Footer';
+import { Analytics } from '@vercel/analytics/react';
 export default function App() {
   const [selectedService, setSelectedService] = useState('')
   
@@ -109,6 +110,7 @@ export default function App() {
 
       </div>
 
+      <Analytics />
     </div>
   );
 }

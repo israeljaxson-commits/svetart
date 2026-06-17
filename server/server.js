@@ -4,6 +4,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
+import sgMail from '@sendgrid/mail';
 
 const app = express();
 app.use(cors());
@@ -11,6 +12,16 @@ app.use(express.json());
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_KEY = process.env.SUPABASE_KEY || '';
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
+const EMAIL_FROM = process.env.EMAIL_FROM || '';
+const EMAIL_TO = process.env.EMAIL_TO || '';
+
+if (SENDGRID_API_KEY) {
+  sgMail.setApiKey(SENDGRID_API_KEY);
+}
+
+const emailConfigured = Boolean(SENDGRID_API_KEY && EMAIL_FROM && EMAIL_TO);
+
 const supabase = SUPABASE_URL && SUPABASE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_KEY)
   : null;
@@ -91,6 +102,41 @@ async function deleteBookingsFromSupabase() {
   return true;
 }
 
+function saveBookingLocally(booking) {
+  const db = readDB();
+  db.push(booking);
+  writeDB(db);
+}
+
+async function sendBookingEmail(booking) {
+  if (!emailConfigured) {
+    console.warn('SendGrid email not configured; skipping booking email');
+    return;
+  }
+
+  const htmlBody = `
+    <h2>New booking received</h2>
+    <p><strong>Reference:</strong> ${booking.referenceCode}</p>
+    <p><strong>Service:</strong> ${booking.serviceName}</p>
+    <p><strong>Date:</strong> ${booking.dateString}</p>
+    <p><strong>Time:</strong> ${booking.timeSlot}</p>
+    <p><strong>Name:</strong> ${booking.clientName}</p>
+    <p><strong>Phone:</strong> ${booking.clientPhone}</p>
+    <p><strong>Email:</strong> ${booking.clientEmail}</p>
+    <p><strong>Notes:</strong> ${booking.clientNotes || 'None'}</p>
+    <p><strong>Created at:</strong> ${booking.createdAt || new Date().toISOString()}</p>
+  `;
+
+  const msg = {
+    to: EMAIL_TO,
+    from: EMAIL_FROM,
+    subject: `New booking: ${booking.referenceCode}`,
+    html: htmlBody,
+  };
+
+  await sgMail.send(msg);
+}
+
 const useSupabase = Boolean(supabase);
 
 app.post('/api/bookings', async (req, res) => {
@@ -99,17 +145,42 @@ app.post('/api/bookings', async (req, res) => {
     return res.status(400).json({ error: 'Invalid booking payload' });
   }
 
+  const responseBody = {
+    ok: true,
+    saved: booking.referenceCode,
+    source: 'local',
+    emailSent: false,
+  };
+
   try {
     if (useSupabase) {
-      const saved = await insertBookingIntoSupabase(booking);
-      return res.status(201).json({ ok: true, saved: saved?.referenceCode ?? booking.referenceCode, source: 'supabase' });
+      try {
+        const savedBooking = await insertBookingIntoSupabase(booking);
+        responseBody.saved = savedBooking?.referenceCode ?? booking.referenceCode;
+        responseBody.source = 'supabase';
+      } catch (persistError) {
+        console.error('Supabase insert failed, falling back to local storage', persistError);
+        saveBookingLocally(booking);
+        responseBody.source = 'local-fallback';
+        responseBody.persistError = persistError instanceof Error ? persistError.message : String(persistError);
+      }
+    } else {
+      saveBookingLocally(booking);
     }
 
-    const db = readDB();
-    db.push(booking);
-    writeDB(db);
-    return res.status(201).json({ ok: true, saved: booking.referenceCode, source: 'local' });
+    if (emailConfigured) {
+      try {
+        await sendBookingEmail(booking);
+        responseBody.emailSent = true;
+      } catch (emailError) {
+        console.error('Booking email failed', emailError);
+        responseBody.emailError = emailError instanceof Error ? emailError.message : String(emailError);
+      }
+    }
+
+    return res.status(201).json(responseBody);
   } catch (error) {
+    console.error('Booking save error', error);
     return res.status(500).json({ error: error instanceof Error ? error.message : 'Failed to save booking' });
   }
 });

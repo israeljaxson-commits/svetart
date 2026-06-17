@@ -12,16 +12,20 @@ export default function BookingSystem() {
   const [minDate, setMinDate] = useState('');
   const [minTime, setMinTime] = useState('');
 
+  const defaultNextUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}${window.location.pathname}?booking=success`
+    : '/?booking=success';
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const now = new Date();
       const isoDate = now.toISOString().split('T')[0];
       const isoTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      setNextUrl(`${window.location.origin}${window.location.pathname}?booking=success`);
+      setNextUrl(defaultNextUrl);
       setMinDate(isoDate);
       setMinTime(isoTime);
     }
-  }, []);
+  }, [defaultNextUrl]);
 
   const effectiveMinTime = date === minDate ? minTime : '00:00';
 
@@ -75,7 +79,7 @@ export default function BookingSystem() {
         >
           <input type="hidden" name="_subject" value="New booking request from SvetArt" />
           <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value={nextUrl || 'https://svetartstud.vercel.app/?booking=success'} />
+          <input type="hidden" name="_next" value={nextUrl || defaultNextUrl} />
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
             <span className="text-sm font-semibold text-stone-700">Full name</span>

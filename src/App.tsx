@@ -12,7 +12,6 @@ import Gallery from './components/Gallery';
 import Reviews from './components/Reviews';
 import ContactAndFAQ from './components/ContactAndFAQ';
 import Footer from './components/Footer';
-import AdminBookings from './components/AdminBookings';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from './context/LanguageContext';
 
@@ -99,7 +98,6 @@ export default function App() {
           {/* 5. Customer Reviews Section */}
           <Reviews />
           <CalendarBooking preselectedServiceId={selectedService} />
-          <AdminBookings />
           {/* 6. Contact, Promotions & FAQ Section */}
           <ContactAndFAQ
             selectedServiceName={selectedService}

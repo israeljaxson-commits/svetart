@@ -5,25 +5,6 @@ export default function BookingSystem() {
   const [phone, setPhone] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [status, setStatus] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = (event) => {
-    setStatus('');
-    setError('');
-
-    if (!name.trim() || !phone.trim() || !date || !time) {
-      event.preventDefault();
-      setError('Please fill in all fields before sending your booking request.');
-      return;
-    }
-
-    setStatus('Your booking request has been sent. Please check your email for confirmation and the studio will contact you shortly.');
-    setName('');
-    setPhone('');
-    setDate('');
-    setTime('');
-  };
 
   return (
     <section id="booking" className="py-28 bg-[#F8F0EE]">
@@ -37,11 +18,11 @@ export default function BookingSystem() {
         <form
           action="https://formsubmit.co/learsiando%40gmail.com"
           method="POST"
-          onSubmit={handleSubmit}
           className="grid gap-6 bg-white p-8 rounded-[40px] shadow-soft border border-[#E6D8D3]"
         >
           <input type="hidden" name="_subject" value="New booking request from SvetArt" />
           <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="https://YOUR-VERCEL-DOMAIN" />
           <label className="block">
             <span className="text-sm font-semibold text-stone-700">Full name</span>
             <input
@@ -89,9 +70,6 @@ export default function BookingSystem() {
               />
             </label>
           </div>
-
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          {status && <p className="text-sm text-green-700">{status}</p>}
 
           <button
             type="submit"

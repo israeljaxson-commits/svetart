@@ -10,6 +10,7 @@ export type Language = 'en' | 'ro' | 'ru';
 interface TranslationSchema {
   nav: {
     services: string;
+    admin: string;
     about: string;
     beforeAfter: string;
     gallery: string;
@@ -99,16 +100,7 @@ interface TranslationSchema {
     address: string;
     hoursValue: string;
   };
-  whatsapp: {
-    sm: string;
-    status: string;
-    welcomeMsg: string;
-    options: {
-      manicure: string;
-      lamination: string;
-    };
-    placeholder: string;
-  };
+  
   footer: {
     logoLabel: string;
     philosophyTitle: string;
@@ -124,14 +116,15 @@ const translations: Record<Language, TranslationSchema> = {
   en: {
     nav: {
       services: 'Services',
+      admin: 'Admin',
       about: 'About Sveta',
       beforeAfter: 'Before & After',
       gallery: 'Gallery',
       reviews: 'Reviews',
       faqs: 'FAQs',
       contact: 'Contact',
-      bookConsultation: 'Book Consultation',
-      bookAppointment: 'Book Appointment',
+      bookConsultation: 'Book Now',
+      bookAppointment: 'Book Now',
     },
     hero: {
       badge: "Chisinau's Elite Beauty Aesthetics",
@@ -167,8 +160,8 @@ const translations: Record<Language, TranslationSchema> = {
       titleItalic: 'Uncompromised Science.',
       credoTitle: '“My Credo”',
       credoText: '"True luxury lies in the details. A manicure is not simply aesthetic polish, it is custom architecture tailored to complement your hand\'s native symmetry."',
-      credoAuthor: '— SVETA MOTOC',
-      para1: 'Behind SvetArt is Sveta Motoc, an aesthetic innovator whose work bridges the gap between scientific nail integrity and bespoke artistic styling. Specializing in high-performance Japanese gel techniques and advanced Italian lamination, Sveta treats every fingernail as a unique sculpture.',
+      credoAuthor: '— SVETLANA MOTOC',
+      para1: 'Behind SvetArt is Svetlana Motoc, an aesthetic innovator whose work bridges the gap between scientific nail integrity and bespoke artistic styling. Specializing in high-performance Japanese gel techniques and advanced Italian lamination, Svetlana treats every fingernail as a unique sculpture.',
       para2: 'In a market of hurried salon queues, SvetArt was established to offer a highly personalized, private, and leisurely alternative. Appointments are designed with generous margins to avoid any rushed transitions—ensuring each layer of gel, tint, or serum is applied with sterile perfection.',
       achievements: [
         {
@@ -200,7 +193,7 @@ const translations: Record<Language, TranslationSchema> = {
       treatmentTag: 'Treatment',
       inspect: 'Inspect',
       modalTitle: 'Before / After Results',
-      modalCTA: 'Inquire on WhatsApp about this look',
+      modalCTA: 'Contact Concierge about this look',
     },
     reviews: {
       tag: 'Veracious Reviews',
@@ -221,26 +214,17 @@ const translations: Record<Language, TranslationSchema> = {
       promoDesc: 'Book any Structured Gel Manicure or Lash Lift combo package and receive a luxurious warm peach paraffin moisturizing hand mask absolutely free!',
       promoDetails: 'Book any Structured Gel Manicure or Lash Lift combo package and receive a luxurious warm peach paraffin moisturizing hand mask absolutely free!',
       contactTitle: 'Bespoke scheduling coordinates',
-      contactSub: 'Exclusive WhatsApp & Social Concierge',
+      contactSub: 'Social Concierge',
       preselectedService: 'Preselected Service',
       clearSelection: 'Clear preselection',
       formPlaceholder: 'Write your custom slot inquiry message for Sveta...',
-      formBtn: 'Inquire on WhatsApp',
+      formBtn: 'Contact Concierge',
       location: 'Location',
       hours: 'Salon Hours',
       hoursValue: 'Mon - Sat: 09:00 - 20:00',
       address: 'Anestiade 3, Chișinău, Moldova',
     },
-    whatsapp: {
-      sm: 'SM',
-      status: 'Sveta Motoc • Esthetician',
-      welcomeMsg: '👋 Bună! I’m Sveta. Ask me anything about manicures, lamination durations or custom pigments. Write deep requests below!',
-      options: {
-        manicure: '💅 Booking manicure',
-        lamination: '👁️ Lash lamination',
-      },
-      placeholder: 'Write your message to Sveta...',
-    },
+    
     footer: {
       logoLabel: 'Beauty Lounge',
       philosophyTitle: 'Treatment Philosophy',
@@ -259,14 +243,15 @@ const translations: Record<Language, TranslationSchema> = {
   ro: {
     nav: {
       services: 'Servicii',
+      admin: 'Admin',
       about: 'Despre Sveta',
       beforeAfter: 'Înainte & După',
       gallery: 'Galerie',
       reviews: 'Recenzii',
       faqs: 'Întrebări',
       contact: 'Contact',
-      bookConsultation: 'Rezervă Consultanță',
-      bookAppointment: 'Rezervă Cita',
+      bookConsultation: 'Rezervă Acum',
+      bookAppointment: 'Rezervă Acum',
     },
     hero: {
       badge: 'Estetică de elită din Chișinău',
@@ -276,7 +261,7 @@ const translations: Record<Language, TranslationSchema> = {
       desc: 'Răsfață-te cu arhitectura unghiilor cu gel, geometria personalizată a sprâncenelor și laminarea genelor cu precizie maximă. Armonie perfectă adaptată trăsăturilor tale unice, într-un mediu privat.',
       reviewsRating: '4.9/5',
       bookingsCount: 'Peste 450+ programări premium de succes',
-      ctaMessage: 'Rezervă prin WhatsApp',
+      ctaMessage: 'Rezervă prin Mesaje',
       ctaServices: 'Explorează Serviciile',
     },
     services: {
@@ -302,8 +287,8 @@ const translations: Record<Language, TranslationSchema> = {
       titleItalic: 'Știință Fără Compromis.',
       credoTitle: '„Membru Credo”',
       credoText: '"Adevăratul lux stă în detalii. O manichiură nu este doar o simplă aplicare, ci o arhitectură adaptată pentru a completa simetria nativă a mâinilor tale."',
-      credoAuthor: '— SVETA MOTOC',
-      para1: 'În spatele SvetArt se află Sveta Motoc, o inovatoare estetică a cărei muncă face legătura între integritatea științifică a unghiilor și designul artistic personalizat. Specializată în tehnici japoneze cu gel și laminare italiană avansată, Sveta tratează fiecare unghie ca pe o sculptură.',
+      credoAuthor: '— SVETLANA MOTOC',
+      para1: 'În spatele SvetArt se află Svetlana Motoc, o inovatoare estetică a cărei muncă face legătura între integritatea științifică a unghiilor și designul artistic personalizat. Specializată în tehnici japoneze cu gel și laminare italiană avansată, Svetlana tratează fiecare unghie ca pe o sculptură.',
       para2: 'Într-o piață grăbită, SvetArt a fost creat pentru a oferi o alternativă personalizată, relaxată și selectă. Programările sunt planificate cu marje generoase de timp pentru a evita graba, asigurând că fiecare strat este aplicat cu o perfecțiune sterilă.',
       achievements: [
         {
@@ -335,7 +320,7 @@ const translations: Record<Language, TranslationSchema> = {
       treatmentTag: 'Tratament',
       inspect: 'Inspectează',
       modalTitle: 'Rezultate Înainte / După',
-      modalCTA: 'Solicită detalii pe WhatsApp despre acest look',
+      modalCTA: 'Solicită detalii prin Concierge Social despre acest look',
     },
     reviews: {
       tag: 'Recenzii Reale',
@@ -356,26 +341,17 @@ const translations: Record<Language, TranslationSchema> = {
       promoDesc: 'Rezervă orice Manichiură cu Gel sau pachet combo și primești absolut gratuit o mască hidratantă cu parafină caldă de piersici pentru mâini!',
       promoDetails: 'Rezervă orice Manichiură cu Gel sau pachet combo și primești absolut gratuit o mască hidratantă cu parafină caldă de piersici pentru mâini!',
       contactTitle: 'Programări și Contact',
-      contactSub: 'Asistență WhatsApp & Mesagerie Socială',
+      contactSub: 'Concierge Social',
       preselectedService: 'Serviciu Selectat',
       clearSelection: 'Șterge selecția',
       formPlaceholder: 'Scrie mesajul tău pentru a verifica disponibilitatea locurilor...',
-      formBtn: 'Trimite pe WhatsApp',
+      formBtn: 'Contactează Concierge',
       location: 'Locație',
       hours: 'Program Salon',
       hoursValue: 'Luni - Sâmbătă: 09:00 - 20:00',
       address: 'Anestiade 3, Chișinău, Moldova',
     },
-    whatsapp: {
-      sm: 'SM',
-      status: 'Sveta Motoc • Esteticiană',
-      welcomeMsg: '👋 Bună! Sunt Sveta. Întreabă-mă orice despre manichiură, durate de laminare sau pigmenți personalizați. Scrie mesajul tău mai jos!',
-      options: {
-        manicure: '💅 Rezervare manichiură',
-        lamination: '👁️ Laminare gene',
-      },
-      placeholder: 'Scrie un mesaj către Sveta...',
-    },
+    
     footer: {
       logoLabel: 'Salon de Estetică',
       philosophyTitle: 'Filozofie de Lucru',
@@ -394,14 +370,15 @@ const translations: Record<Language, TranslationSchema> = {
   ru: {
     nav: {
       services: 'Услуги',
+      admin: 'Админ',
       about: 'О Свете',
       beforeAfter: 'До & После',
       gallery: 'Галерея',
       reviews: 'Отзывы',
       faqs: 'Вопросы',
       contact: 'Контакты',
-      bookConsultation: 'Записаться на консультацию',
-      bookAppointment: 'Записаться к мастеру',
+      bookConsultation: 'Записаться сейчас',
+      bookAppointment: 'Записаться сейчас',
     },
     hero: {
       badge: 'Элитная эстетика красоты в Кишиневе',
@@ -411,7 +388,7 @@ const translations: Record<Language, TranslationSchema> = {
       desc: 'Побалуйте себя кутюрной архитектурой ногтей, индивидуальным моделированием бровей и высокоточным ламинированием ресниц. Процедуры подбираются под ваши уникальные черты лица в эксклюзивной частной атмосфере.',
       reviewsRating: '4.9/5',
       bookingsCount: 'Более 450+ верифицированных премиум-записей',
-      ctaMessage: 'Записаться в WhatsApp',
+      ctaMessage: 'Записаться через сообщения',
       ctaServices: 'Посмотреть услуги',
     },
     services: {
@@ -437,8 +414,8 @@ const translations: Record<Language, TranslationSchema> = {
       titleItalic: 'научный подход без компромиссов.',
       credoTitle: '«Мое кредо»',
       credoText: '"Истинная роскошь кроется в деталях. Маникюр — это не просто эстетическое покрытие, это индивидуальная архитектура, созданная для того, чтобы подчеркнуть естественную симметрию ваших рук."',
-      credoAuthor: '— СВЕТА МОТОК',
-      para1: 'За SvetArt стоит Света Моток, новатор в сфере эстетики, чья работа сочетает в себе заботу о здоровье ногтей и индивидуальный художественный стиль. Специализируясь на высокотехнологичных японских гелевых техниках и передовом итальянском ламинировании, Света ухаживает за каждым ногтем как за уникальной скульптурой.',
+      credoAuthor: '— СВЕТЛАНА МОТОК',
+      para1: 'За SvetArt стоит Светлана Моток, новатор в сфере эстетики, чья работа сочетает в себе заботу о здоровье ногтей и индивидуальный художественный стиль. Специализируясь на высокотехнологичных японских гелевых техниках и передовом итальянском ламинировании, Светлана ухаживает за каждым ногтем как за уникальной скульптурой.',
       para2: 'На рынке торопливых салонов с бесконечными очередями, SvetArt был основан для того, чтобы предложить расслабленную, приватную и индивидуальную альтернативу. Записи планируются с комфортными временными интервалами, чтобы исключить спешку и гарантировать нанесение каждого слоя с клинической стерильностью.',
       achievements: [
         {
@@ -470,7 +447,7 @@ const translations: Record<Language, TranslationSchema> = {
       treatmentTag: 'Процедура',
       inspect: 'Посмотреть',
       modalTitle: 'Результаты До / После',
-      modalCTA: 'Узнать об этом образе в WhatsApp',
+      modalCTA: 'Связаться с консьерж-службой о данном образе',
     },
     reviews: {
       tag: 'Реальные отзывы',
@@ -491,26 +468,17 @@ const translations: Record<Language, TranslationSchema> = {
       promoDesc: 'Запишитесь на любой структурированный гелевый маникюр или комбинированный комплекс и получите роскошную персиковую спа-парафинотерапию для рук абсолютно бесплатно!',
       promoDetails: 'Запишитесь на любой структурированный гелевый маникюр или комплекс для ресниц/бровей и получите процедуру парафинотерапии в подарок!',
       contactTitle: 'Контакты и координаты',
-      contactSub: 'Эксклюзивная поддержка в WhatsApp',
+      contactSub: 'Социальный консьерж',
       preselectedService: 'Выбранная услуга',
       clearSelection: 'Сбросить выбор',
       formPlaceholder: 'Напишите сообщение, чтобы подобрать удобное время для записи...',
-      formBtn: 'Записаться в WhatsApp',
+      formBtn: 'Связаться с консьержем',
       location: 'Где мы находимся',
       hours: 'Режим работы',
       hoursValue: 'Пн - Сб: 09:00 - 20:00',
       address: 'ул. Александру Анестиаде 3, Кишинев, Молдова',
     },
-    whatsapp: {
-      sm: 'WA',
-      status: 'Света Моток • Эстетист',
-      welcomeMsg: '👋 Привет! Я Света. Задайте мне любой вопрос о маникюре, стойкости ламинирования или пигментах. Напишите ниже!',
-      options: {
-        manicure: '💅 Записаться на маникюр',
-        lamination: '👁️ Записаться на ламинирование ресниц',
-      },
-      placeholder: 'Написать Свете...',
-    },
+    
     footer: {
       logoLabel: 'Салон эстетики',
       philosophyTitle: 'Наша философия',
@@ -740,7 +708,7 @@ export const getLocalizedFaqs = (lang: Language): Array<{ id: string; question: 
       {
         id: 'faq-4',
         question: 'Cum pot reprograma o vizită confirmată prin rețele?',
-        answer: 'Da. Deoarece lucrăm pe un calendar privat de joasă densitate, te rugăm politicos să transmiți o notificare cu minim 24 de ore înainte pe WhatsApp sau Instagram pentru a putea delega intervalul clienților din lista de așteptare.',
+         answer: 'Da. Deoarece lucrăm pe un calendar privat de joasă densitate, te rugăm politicos să transmiți o notificare cu minim 24 de ore înainte prin Instagram sau prin serviciul nostru Concierge Social pentru a putea delega intervalul clienților din lista de așteptare.',
       },
     ];
   }
@@ -764,7 +732,7 @@ export const getLocalizedFaqs = (lang: Language): Array<{ id: string; question: 
       {
         id: 'faq-4',
         question: 'Можно ли перенести подтвержденную запись?',
-        answer: 'Да, конечно. Поскольку салон SvetArt работает по индивидуальному календарю высокой точности с комфортной плотностью записей, мы убедительно просим предупреждать о переносе минимум за 24 часа через WhatsApp или Instagram, чтобы мы могли предложить освободившееся время другим клиентам.',
+         answer: 'Да, конечно. Поскольку салон SvetArt работает по индивидуальному календарю высокой точности с комфортной плотностью записей, мы убедительно просим предупреждать о переносе минимум за 24 часа через Instagram или через наш социальный консьерж, чтобы мы могли предложить освободившееся время другим клиентам.',
       },
     ];
   }
@@ -787,7 +755,7 @@ export const getLocalizedFaqs = (lang: Language): Array<{ id: string; question: 
     {
       id: 'faq-4',
       question: 'Can I reschedule an existing social booking?',
-      answer: "Yes, you can reschedule. Because SvetArt operates on an exclusive, low-density private booking calendar, we kindly request at least 24 hours advance notice via WhatsApp or Instagram to allow clients on the waiting list to fill your slot.",
+       answer: "Yes, you can reschedule. Because SvetArt operates on an exclusive, low-density private booking calendar, we kindly request at least 24 hours advance notice via Instagram or our social concierge to allow clients on the waiting list to fill your slot.",
     },
   ];
 };

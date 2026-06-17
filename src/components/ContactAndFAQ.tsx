@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react';
-import { ChevronDown, Clock, MapPin, MessageSquare, Instagram, Sparkles, Gift } from 'lucide-react';
+import { ChevronDown, Clock, MapPin, Instagram, Sparkles, Gift } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -24,7 +24,7 @@ const localFaqs = {
     {
       id: 'faq-1',
       question: 'What is a "Structured Gel Manicure" and how does it differ from standard gel polish?',
-      answer: "Standard gel polish is painted flat. In a Structured Gel Manicure, Sveta models a dynamic anatomical arch (the apex) using self-leveling fiber builder gels. This distributes mechanical stress, strengthens natural nail beds, prevents cracking, and results in a beautiful linear light reflection. It routinely persists without chips for up to 5 weeks.",
+      answer: "Standard gel polish is painted flat. In a Structured Gel Manicure, Svetlana models a dynamic anatomical arch (the apex) using self-leveling fiber builder gels. This distributes mechanical stress, strengthens natural nail beds, prevents cracking, and results in a beautiful linear light reflection. It routinely persists without chips for up to 5 weeks.",
     },
     {
       id: 'faq-2',
@@ -39,14 +39,14 @@ const localFaqs = {
     {
       id: 'faq-4',
       question: 'Can I reschedule an existing social booking?',
-      answer: "Yes, you can reschedule. Because SvetArt operates on an exclusive, low-density private booking calendar, we kindly request at least 24 hours advance notice via WhatsApp or Instagram to allow clients on the waiting list to fill your slot.",
+      answer: "Yes, you can reschedule. Because SvetArt operates on an exclusive, low-density private booking calendar, we kindly request at least 24 hours advance notice via Instagram or our social concierge to allow clients on the waiting list to fill your slot.",
     },
   ],
   ro: [
     {
       id: 'faq-1',
       question: 'Ce este o „Manichiură Structurată cu Gel” și cum diferă de oja semipermanentă standard?',
-      answer: 'Oja semipermanentă standard se aplică plat. Între o Manichiură Structurată, Sveta modelează o curbă anatomică dinamică (apexul) folosind geluri de construcție autonivelante. Acest lucru distribuie tensiunea mecanică, protejează și întărește patul unghial, prevenind crăparea și obținând un blic ideal de lumină. Rezistă fără nicio ciobire până la 5 săptămâni.',
+      answer: 'Oja semipermanentă standard se aplică plat. Între o Manichiură Structurată, Svetlana modelează o curbă anatomică dinamică (apexul) folosind geluri de construcție autonivelante. Acest lucru distribuie tensiunea mecanică, protejează și întărește patul unghial, prevenind crăparea și obținând un blic ideal de lumină. Rezistă fără nicio ciobire până la 5 săptămâni.',
     },
     {
       id: 'faq-2',
@@ -61,7 +61,7 @@ const localFaqs = {
     {
       id: 'faq-4',
       question: 'Pot reprograma o programare socială existentă?',
-      answer: 'Da, poți reprograma. Deoarece SvetArt funcționează pe baza unui calendar privat exclusiv, cu densitate scăzută, te rugăm să transmiți o notificare cu cel puțin 24 de ore înainte pe WhatsApp sau Instagram pentru a permite clienților din lista de așteptare să ocupe slotul.',
+      answer: 'Da, poți reprograma. Deoarece SvetArt funcționează pe baza unui calendar privat exclusiv, cu densitate scăzută, te rugăm să transmiți o notificare cu cel puțin 24 de ore înainte prin Instagram sau prin serviciul nostru Concierge Social pentru a permite clienților din lista de așteptare să ocupe slotul.',
     },
   ],
   ru: [
@@ -83,7 +83,7 @@ const localFaqs = {
     {
       id: 'faq-4',
       question: 'Можно ли перенести подтвержденную запись?',
-      answer: 'Да, конечно. Поскольку салон SvetArt работает по индивидуальному календарю высокой точности с комфортной плотностью записей, мы убедительно просим предупреждать о переносе минимум за 24 часа через WhatsApp или Instagram, чтобы мы могли предложить освободившееся время другим клиентам.',
+      answer: 'Да, конечно. Поскольку салон SvetArt работает по индивидуальному календарю высокой точности с комфортной плотностью записей, мы убедительно просим предупреждать о переносе минимум за 24 часа через Instagram или через наш социальный консьерж, чтобы мы могли предложить освободившееся время другим клиентам.',
     },
   ]
 };
@@ -96,12 +96,7 @@ export default function ContactAndFAQ({ selectedServiceName = '', onClearPresele
 
   const faqs: FaqItem[] = localFaqs[lang] || localFaqs.en;
 
-  const handleWhatsappRedirect = () => {
-    const defaultText = selectedServiceName
-      ? `${t.faq.formPlaceholder || "Buna, Sveta! I am interested in booking structured manicure:"} "${selectedServiceName}"`
-      : (t.faq.formPlaceholder || "Buna, Sveta! I would love to check slot availability for manicures...");
-    window.open(`https://wa.me/${businessPhone}?text=${encodeURIComponent(defaultText)}`, '_blank');
-  };
+  // WhatsApp redirect removed
 
   const handleInstagramRedirect = () => {
     window.open(`https://www.instagram.com/svetart.beauty?igsh=MmhidHgzbHh2dXRy`, '_blank');
@@ -260,16 +255,7 @@ export default function ContactAndFAQ({ selectedServiceName = '', onClearPresele
                 {/* Direct interaction buttons */}
                 <div className="space-y-4">
                   
-                  {/* WhatsApp Big Action */}
-                  <button
-                    onClick={handleWhatsappRedirect}
-                    className="w-full py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-colors duration-300 shadow-md hover:shadow-xl cursor-pointer"
-                  >
-                    <MessageSquare className="w-4 h-4 fill-white/10 text-white" />
-                    <span>{t.faq.formBtn}</span>
-                  </button>
-
-                  {/* Instagram Big Action */}
+                  {/* Social Action: Instagram only (WhatsApp removed) */}
                   <button
                     onClick={handleInstagramRedirect}
                     className="w-full py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-colors duration-300 cursor-pointer"

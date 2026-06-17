@@ -21,7 +21,7 @@ interface Service {
 }
 
 interface ServicesProps {
-  onServiceSelect: (serviceName: string) => void;
+  onServiceSelect: (serviceId: string) => void;
 }
 
 const localServicesT = {
@@ -210,7 +210,7 @@ function ServiceCard({ service, index, handleInquiry, formulaLabel, btnInquireLa
           </div>
 
           <button
-            onClick={() => handleInquiry(service.name)}
+            onClick={() => handleInquiry(service.id)}
             className="w-full py-4 rounded-full rose-gold-gradient text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-2xl hover:brightness-105 active:scale-98 cursor-pointer font-sans"
           >
             <span>{btnInquireLabel}</span>
@@ -290,12 +290,12 @@ export default function Services({ onServiceSelect }: ServicesProps) {
     ? servicesList
     : servicesList.filter(s => s.category === activeTab);
 
-  const handleInquiry = (serviceName: string) => {
-    onServiceSelect(serviceName);
-    
-    // Smooth scroll down to contact section
+  const handleInquiry = (serviceId: string) => {
+    onServiceSelect(serviceId);
+
+    // Smooth scroll to booking section
     setTimeout(() => {
-      const element = document.querySelector('#contact');
+      const element = document.querySelector('#booking');
       if (element) {
         const offset = 95;
         const bodyRect = document.body.getBoundingClientRect().top;

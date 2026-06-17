@@ -32,6 +32,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
 
   const menuItems = [
     { label: t.nav.services, href: '#services' },
+    { label: t.nav.admin, href: '#admin' },
     { label: t.nav.about, href: '#about' },
     { label: t.nav.beforeAfter, href: '#before-after' },
     { label: t.nav.gallery, href: '#gallery' },
@@ -103,23 +104,28 @@ export default function Navbar({ onBookClick }: NavbarProps) {
         </nav>
 
         {/* Call to Actions / Social links */}
-        <div className="hidden sm:flex items-center gap-4">
-          {/* Elegant inline Language Selector */}
-          <div className="flex items-center gap-1 bg-white/60 backdrop-blur-md border border-[#D9A7A7]/20 rounded-full p-1 text-[10px] font-bold tracking-wider mr-1 shadow-xs">
+        <div className="flex items-center gap-4">
+          {/* Elegant inline Language Selector (always visible, subtle animation) */}
+          <motion.div
+            className="flex items-center gap-1 bg-white/60 backdrop-blur-md border border-[#D9A7A7]/20 rounded-full p-1 text-[10px] font-bold tracking-wider mr-1 shadow-xs"
+            initial={{ y: 0 }}
+            animate={{ y: [0, -4, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
             {(['en', 'ro', 'ru'] as const).map((locale) => (
               <button
                 key={locale}
                 onClick={() => setLang(locale)}
                 className={`px-2.5 py-1 rounded-full transition-all duration-300 cursor-pointer font-sans font-bold text-[10px] ${
                   lang === locale
-                    ? 'bg-[#B67C7C] text-white shadow-md'
-                    : 'text-stone-600 hover:text-[#B67C7C]'
+                    ? 'bg-[#B67C7C] text-white shadow-md scale-105'
+                    : 'text-stone-600 hover:text-[#B67C7C] hover:scale-105'
                 }`}
               >
                 {locale.toUpperCase()}
               </button>
             ))}
-          </div>
+          </motion.div>
 
           <a
             href="https://www.instagram.com/svetart.beauty?igsh=MmhidHgzbHh2dXRy"

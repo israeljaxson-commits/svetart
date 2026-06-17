@@ -11,8 +11,8 @@ import { useLanguage } from '../context/LanguageContext';
 interface InstagramPost {
   id: string;
   image: string;
-  likes: number;
-  comments: number;
+  likes?: number;
+  comments?: number;
   caption: string;
   tags: string[];
   treatment: string;
@@ -123,18 +123,18 @@ export default function Gallery() {
   const [posts, setPosts] = useState<InstagramPost[]>([
     {
       id: 'post-1',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/img1.jpg',
       likes: 184,
       comments: 24,
       treatment: st.post1.treatment,
       caption: st.post1.caption,
-      tags: ['#GelManicure', '#SvetaAesthetics', '#NailArchitecture', '#NudeGlam'],
+      tags: ['#GelManicure', '#SvetlanaAesthetics', '#NailArchitecture', '#NudeGlam'],
       gridClass: 'lg:col-span-1 lg:row-span-2',
       heightClass: 'aspect-[3/4.5] lg:h-full min-h-[460px]'
     },
     {
       id: 'post-2',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/img2.jpg',
       likes: 245,
       comments: 31,
       treatment: st.post2.treatment,
@@ -145,7 +145,7 @@ export default function Gallery() {
     },
     {
       id: 'post-3',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/lamination.jpg',
       treatment: st.post3.treatment,
       caption: st.post3.caption,
       tags: ['#LashLamination', '#InLeiLashFiller', '#EyeGaze', '#EyelashPerm'],
@@ -154,18 +154,18 @@ export default function Gallery() {
     },
     {
       id: 'post-4',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/img4.jpg',
       likes: 198,
       comments: 19,
       treatment: st.post4.treatment,
       caption: st.post4.caption,
-      tags: ['#BrowArchitecture', '#EyebrowTinting', '#BeautyBySveta', '#FacialSymmetry'],
+      tags: ['#BrowArchitecture', '#EyebrowTinting', '#BeautyBySvetlana', '#FacialSymmetry'],
       gridClass: 'lg:col-span-1',
       heightClass: 'aspect-square h-[300px] lg:h-[340px]'
     },
     {
       id: 'post-5',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/img5.jpg',
       likes: 289,
       comments: 37,
       treatment: st.post5.treatment,
@@ -176,7 +176,7 @@ export default function Gallery() {
     },
     {
       id: 'post-6',
-      image: 'https://vufenghjvgdfsatjxkac.supabase.co/storage/v1/object/public/gallery/image9.jpeg',
+      image: '/assets/gallery/img6.jpg',
       likes: 324,
       comments: 43,
       treatment: st.post6.treatment,
@@ -196,7 +196,8 @@ export default function Gallery() {
     setLikedPosts(prev => ({ ...prev, [postId]: !isLiked }));
     setPosts(prev => prev.map(p => {
       if (p.id === postId) {
-        return { ...p, likes: isLiked ? p.likes - 1 : p.likes + 1 };
+        const current = p.likes ?? 0;
+        return { ...p, likes: isLiked ? current - 1 : current + 1 };
       }
       return p;
     }));
@@ -225,15 +226,26 @@ export default function Gallery() {
               <h3 className="font-serif text-3xl font-bold text-[#2C2523]">{st.feedTitle}</h3>
               <p className="text-xs text-stone-500 font-light font-sans">{st.feedSub}</p>
             </div>
-            <a
-              href="https://www.instagram.com/svetart.beauty?igsh=MmhidHgzbHh2dXRy"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                setTimeout(() => {
+                  const element = document.querySelector('#booking');
+                  if (element) {
+                    const offset = 95;
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = element.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                  }
+                }, 120);
+              }}
               className="px-6 py-4 rounded-full rose-gold-gradient text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all duration-305 shadow-md hover:shadow-2xl hover:brightness-105 active:scale-98 cursor-pointer font-sans"
             >
               <Instagram className="w-4 h-4 text-white" />
               <span>{t.gallery.followInsta}</span>
-            </a>
+            </button>
           </div>
 
 
@@ -352,17 +364,26 @@ export default function Gallery() {
                   </div>
 
                   <div className="pt-6 border-t border-[#D9A7A7]/20">
-                    <a
-                      href={`https://wa.me/37379166006?text=${encodeURIComponent(
-                        `Hi Sveta! I saw your stunning post about "${selectedPost.treatment}" in the SvetArt Lookbook and would love to check slot availability...`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => {
+                        setTimeout(() => {
+                          const element = document.querySelector('#booking');
+                          if (element) {
+                            const offset = 95;
+                            const bodyRect = document.body.getBoundingClientRect().top;
+                            const elementRect = element.getBoundingClientRect().top;
+                            const elementPosition = elementRect - bodyRect;
+                            const offsetPosition = elementPosition - offset;
+
+                            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                          }
+                        }, 120);
+                      }}
                       className="w-full py-4 rose-gold-gradient text-white hover:brightness-105 hover:shadow-lg rounded-xl text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer text-center"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-[#E7C7A0]" />
-                      {t.gallery.modalCTA}
-                    </a>
+                      {t.gallery.followInsta}
+                    </button>
                   </div>
                 </div>
 

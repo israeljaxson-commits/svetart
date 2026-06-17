@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Instagram, MessageSquare, Heart, Shield } from 'lucide-react';
+import { Instagram, Heart, Shield } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 
@@ -140,15 +140,7 @@ export default function Footer() {
               >
                 <Instagram className="w-4 h-4" />
               </a>
-              <a
-                href="https://wa.me/37379166006"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-11 h-11 rounded-full bg-white/5 border border-white/10 hover:border-[#D9A7A7] text-stone-300 hover:text-[#D9A7A7] flex items-center justify-center transition-all duration-300"
-                title="Concierge Chat"
-              >
-                <MessageSquare className="w-4 h-4" />
-              </a>
+              {/* WhatsApp removed — use Instagram direct messages above */}
             </div>
 
             <div className="text-xs text-stone-400 font-light pt-2">
@@ -163,7 +155,7 @@ export default function Footer() {
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-widest text-stone-500 font-sans">
           <p>© {currentYear} SVERTART BEAUTY. {st.rights}</p>
           <p className="flex items-center gap-1.5 font-light normal-case">
-            {st.formulatedBy} <span className="hover:text-white font-serif text-xs italic font-semibold text-[#D9A7A7] transition-all">Sveta Motoc</span> with <Heart className="w-3.5 h-3.5 fill-rose-500/80 text-rose-500/80 inline" /> in Chisinau.
+            {st.formulatedBy} <span className="hover:text-white font-serif text-xs italic font-semibold text-[#D9A7A7] transition-all">Svetlana Motoc</span> with <Heart className="w-3.5 h-3.5 fill-rose-500/80 text-rose-500/80 inline" /> in Chisinau.
           </p>
         </div>
 

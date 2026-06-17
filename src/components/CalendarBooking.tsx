@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, User, Phone, Mail, ArrowLeft, ArrowRight, Check, CheckCircle2, AlertCircle, Share2, Sparkles, Trash2 } from 'lucide-react';
+import { Calendar, Clock, User, Phone, Mail, ArrowLeft, ArrowRight, Check, CheckCircle2, AlertCircle, Sparkles, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -12,7 +12,6 @@ export interface Booking {
   id: string;
   serviceId: string;
   serviceName: string;
-  price: string;
   duration: string;
   dateString: string; // e.g. "2026-06-18"
   timeSlot: string;   // e.g. "14:00"
@@ -37,12 +36,12 @@ const SERVICES_DATA = [
       ro: 'Manichiură Structurată cu Gel',
       ru: 'Структурированный Маникюр'
     },
-    price: '€40',
     duration: '90m',
+    
     materials: {
-      en: 'Japanese Bio-Gel & Luxury Pigments',
-      ro: 'Bio-Gel Japonez și Pigmenți de Lux',
-      ru: 'Японский биогель и люкс-пигменты'
+      en: ' Bio-Gel & Luxury Pigments',
+      ro: 'Bio-Gel  și Pigmenți de Lux',
+      ru: 'Японский  и люкс-пигменты'
     }
   },
   {
@@ -50,9 +49,8 @@ const SERVICES_DATA = [
     name: {
       en: 'Elegant French Overlay',
       ro: 'French Overlay Semnătură',
-      ru: 'Элегантный Френч Дизайн'
+      ru: 'Элегантный Френч Дизайн' 
     },
-    price: '€45',
     duration: '105m',
     materials: {
       en: 'Hypoallergenic Self-leveling Gels',
@@ -67,7 +65,6 @@ const SERVICES_DATA = [
       ro: 'Laminare de Gene Italiană',
       ru: 'Итальянское Ламинирование Ресниц'
     },
-    price: '€35',
     duration: '65m',
     materials: {
       en: 'InLei® Lash Filler (Made in Italy)',
@@ -82,7 +79,6 @@ const SERVICES_DATA = [
       ro: 'Arhitectură Sprâncene de Elită',
       ru: 'Элитная Архитектура Бровей'
     },
-    price: '€25',
     duration: '45m',
     materials: {
       en: 'Premium BrowXenna® Organic Pigments',
@@ -97,7 +93,6 @@ const SERVICES_DATA = [
       ro: 'Look Semnătură SvetArt',
       ru: 'Фирменный образ SvetArt Signature'
     },
-    price: '€65',
     duration: '140m',
     materials: {
       en: 'Elite European formulas & prosecco',
@@ -124,7 +119,7 @@ const LOCALES = {
     priceLabel: "Price",
     formulasLabel: "Formulas",
     clientName: "Your Full Name",
-    clientPhone: "Mobile Phone (WhatsApp preferred)",
+    clientPhone: "Mobile Phone",
     clientEmail: "Email Address",
     clientNotes: "Special requests or color preferences (optional)",
     confirmBtn: "Confirm Luxury Booking",
@@ -133,12 +128,12 @@ const LOCALES = {
     refCode: "Booking Ref",
     addressLabel: "Studio Address",
     hoursLabel: "Salon Line",
-    shareWhatsapp: "Notify Sveta on WhatsApp",
     addCalendar: "Add to Google Calendar",
+    backToServices: "Back to Services",
     myBookings: "My Appointmens",
     cancelBooking: "Cancel Reservation",
     warningPast: "Cannot book past dates.",
-    sundayNotice: "ℹ️ Sunday sessions involve a €15 custom surcharge and require personal manual approval.",
+    sundayNotice: "ℹ️ Sunday sessions involve a custom surcharge and require personal manual approval.",
     noActive: "You do not have any active appointments. Pick a slot below!",
     nameReq: "Please enter your name",
     phoneReq: "Please enter your phone number",
@@ -166,7 +161,7 @@ const LOCALES = {
     priceLabel: "Preț",
     formulasLabel: "Formule",
     clientName: "Numele tău complet",
-    clientPhone: "Telefon mobil (preferabil WhatsApp)",
+    clientPhone: "Telefon mobil",
     clientEmail: "Adresă de email",
     clientNotes: "Solicitări speciale sau preferințe de culoare (opțional)",
     confirmBtn: "Confirmă Rezervarea de Lux",
@@ -175,8 +170,8 @@ const LOCALES = {
     refCode: "Ref. Rezervare",
     addressLabel: "Adresă Studio",
     hoursLabel: "Linie Salon",
-    shareWhatsapp: "Notifică-o pe Sveta pe WhatsApp",
     addCalendar: "Adaugă în Google Calendar",
+    backToServices: "Înapoi la Servicii",
     myBookings: "Programările Mele",
     cancelBooking: "Anulează Programarea",
     warningPast: "Nu se pot rezerva date din trecut.",
@@ -208,7 +203,7 @@ const LOCALES = {
     priceLabel: "Стоимость",
     formulasLabel: "Материалы",
     clientName: "Ваше имя и фамилия",
-    clientPhone: "Мобильный телефон (для WhatsApp)",
+    clientPhone: "Мобильный телефон",
     clientEmail: "Электронная почта",
     clientNotes: "Особые пожелания или детали дизайна (необязательно)",
     confirmBtn: "Подтвердить запись класса люкс",
@@ -217,8 +212,8 @@ const LOCALES = {
     refCode: "Код записи",
     addressLabel: "Адрес студии",
     hoursLabel: "Рабочие часы",
-    shareWhatsapp: "Отправить детали Свете в WhatsApp",
     addCalendar: "Добавить в Google Календарь",
+    backToServices: "Назад к услугам",
     myBookings: "Мои Записи",
     cancelBooking: "Отменить запись",
     warningPast: "Нельзя забронировать прошедшую дату.",
@@ -334,9 +329,9 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
     if (currentMonthIdx === 5 && currentYear === 2026) return; // limit back to June 2026
     if (currentMonthIdx === 0) {
       setCurrentMonthIdx(11);
-      setCurrentYear(prev => prev - 1);
+      setCurrentYear((prev: number) => prev - 1);
     } else {
-      setCurrentMonthIdx(prev => prev - 1);
+      setCurrentMonthIdx((prev: number) => prev - 1);
     }
     setSelectedDate(null);
     setSelectedTime(null);
@@ -345,9 +340,9 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
   const handleNextMonth = () => {
     if (currentMonthIdx === 11) {
       setCurrentMonthIdx(0);
-      setCurrentYear(prev => prev + 1);
+      setCurrentYear((prev: number) => prev + 1);
     } else {
-      setCurrentMonthIdx(prev => prev + 1);
+      setCurrentMonthIdx((prev: number) => prev + 1);
     }
     setSelectedDate(null);
     setSelectedTime(null);
@@ -442,7 +437,6 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
       id: `booking-${Date.now()}`,
       serviceId: selectedService.id,
       serviceName: selectedService.name[lang] || selectedService.name.en,
-      price: selectedService.price,
       duration: selectedService.duration,
       dateString: formattedDateStr,
       timeSlot: selectedTime,
@@ -458,6 +452,19 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
     setActiveBookings(updatedBookings);
     setLastConfirmedBooking(newBooking);
     localStorage.setItem('svetart_luxury_bookings', JSON.stringify(updatedBookings));
+
+    // Send booking to server for persistence (best-effort)
+    (async () => {
+      try {
+        await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newBooking),
+        });
+      } catch (err) {
+        console.error('Failed to POST booking to server', err);
+      }
+    })();
 
     // Disable locally to simulate actual booking persistence
     const newSlotId = getSlotId(selectedDate, selectedTime);
@@ -503,30 +510,13 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
     const endStr = formatTimeGoogle(endDate);
     
     const title = encodeURIComponent(`SvetArt Studio: ${b.serviceName}`);
-    const details = encodeURIComponent(`Luxury customized styling session with Sveta Motoc.\n\nBooking Ref: ${b.referenceCode}\nPersonal details: ${b.clientName} (${b.clientPhone})\nSpecial requests: ${b.clientNotes || 'None'}`);
+    const details = encodeURIComponent(`Luxury customized styling session with Svetlana Motoc.\n\nBooking Ref: ${b.referenceCode}\nPersonal details: ${b.clientName} (${b.clientPhone})\nSpecial requests: ${b.clientNotes || 'None'}`);
     const location = encodeURIComponent("Strada Alexandru Anestiade 3, Chișinău, Moldova");
     
     return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startStr}/${endStr}&details=${details}&location=${location}`;
   };
 
-  // Generate WhatsApp Notification message
-  const handleWhatsAppShare = (b: Booking) => {
-    const formattedDate = new Date(b.dateString).toLocaleDateString(lang === 'ro' ? 'ro-RO' : lang === 'ru' ? 'ru-RU' : 'en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-
-    const msg = lang === 'ro'
-      ? `Bună, Sveta! Am făcut o rezervare în calendar:\n✨ *${b.serviceName}*\n📅 Dată: ${formattedDate}\n⏰ Oră: ${b.timeSlot} (${b.duration})\nCod: *${b.referenceCode}*\nNume: ${b.clientName}\nTelefon: ${b.clientPhone}\nFormule folosite: ${b.price}\nNote: ${b.clientNotes || '-'}\nVă rog să confirmați!`
-      : lang === 'ru'
-      ? `Привет, Света! Я оформила запись через календарь:\n✨ *${b.serviceName}*\n📅 Дата: ${formattedDate}\n⏰ Время: ${b.timeSlot} (${b.duration})\nКод записи: *${b.referenceCode}*\nИмя: ${b.clientName}\nТелефон: ${b.clientPhone}\nСтоимость: ${b.price}\nПожелания: ${b.clientNotes || '-'}\nПожалуйста, подтвердите!`
-      : `Hi Sveta! I parsed a luxury booking through the calendar:\n✨ *${b.serviceName}*\n📅 Date: ${formattedDate}\n⏰ Time: ${b.timeSlot} (${b.duration})\nRef: *${b.referenceCode}*\nName: ${b.clientName}\nPhone: ${b.clientPhone}\nPrice: ${b.price}\nNote: ${b.clientNotes || '-'}\nPlease confirm!`;
-
-    const phoneNum = '37379166006';
-    window.open(`https://wa.me/${phoneNum}?text=${encodeURIComponent(msg)}`, '_blank');
-  };
+  // WhatsApp sharing removed
 
   // Calendar calculations
   const daysInMonth = getDaysInMonth(currentYear, currentMonthIdx);
@@ -538,7 +528,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
   });
 
   return (
-    <div className="w-full bg-white rounded-[36.5px] p-6 md:p-8 shadow-2xl border border-[#D9A7A7]/15">
+    <div id="booking" className="w-full bg-white rounded-[36.5px] p-6 md:p-8 shadow-2xl border border-[#D9A7A7]/15">
       <div className="flex items-center justify-between mb-6 border-b border-[#D9A7A7]/10 pb-4">
         <div>
           <h3 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-[#2C2523] flex items-center gap-2">
@@ -618,18 +608,9 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                         <p className="text-xs text-stone-500 font-light leading-relaxed">
                           <strong className="font-semibold text-stone-700">{dict.formulasLabel}:</strong> {service.materials[lang] || service.materials.en}
                         </p>
-                        <div className="flex items-center gap-4 text-[11px] text-stone-400 pt-1.5 font-sans">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5 text-[#D9A7A7]" />
-                            {service.duration}
-                          </span>
-                        </div>
+                        {/* Duration intentionally hidden from service listings */}
                       </div>
-                      <div className="text-right shrink-0">
-                        <span className="text-base md:text-lg font-serif font-black text-[#B67C7C]">
-                          {service.price}
-                        </span>
-                      </div>
+                      {/* price intentionally hidden in UI */}
                     </button>
                   );
                 })}
@@ -647,7 +628,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 {/* Custom Calendar Card Grid */}
-                <div className="space-y-3">
+                <div>
                   <h4 className="font-serif text-lg font-bold text-[#2C2523]">{dict.chooseDate}</h4>
                   <div className="bg-[#FAF6F4] rounded-3xl p-4 border border-[#D9A7A7]/10" id="interactive-schedule-calendar">
                     
@@ -921,7 +902,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                     </div>
                     <div>
                       <span className="text-stone-400 block tracking-wide font-medium text-[10px] uppercase mb-0.5">{dict.priceEst}</span>
-                      <strong className="font-serif italic font-black text-[#B67C7C] text-sm">{lastConfirmedBooking.price}</strong>
+                      <strong className="font-serif italic font-black text-[#B67C7C] text-sm">—</strong>
                     </div>
                   </div>
 
@@ -933,16 +914,8 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                   )}
                 </div>
 
-                {/* Integration Action Buttons */}
+                {/* Integration Action Buttons: WhatsApp sharing removed; keep calendar link */}
                 <div className="space-y-2 pt-2">
-                  <button
-                    onClick={() => handleWhatsAppShare(lastConfirmedBooking)}
-                    className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300 shadow-sm cursor-pointer"
-                  >
-                    <Share2 className="w-4 h-4 text-white" />
-                    <span>{dict.shareWhatsapp}</span>
-                  </button>
-
                   <a
                     href={getGoogleCalendarLink(lastConfirmedBooking)}
                     target="_blank"
@@ -992,7 +965,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                       {selectedService.name[lang] || selectedService.name.en}
                     </h5>
                     <p className="text-[10px] text-stone-500 font-light mt-0.5">
-                      {selectedService.duration} • {selectedService.materials[lang] || selectedService.materials.en}
+                      {selectedService.materials[lang] || selectedService.materials.en}
                     </p>
                   </div>
                 ) : (
@@ -1022,7 +995,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
               <div className="flex items-center justify-between pt-1">
                 <span className="text-xs text-[#2C2523] font-bold">Total Estimate</span>
                 <span className="font-serif text-2xl font-black text-[#B67C7C]" id="booking-amount-total">
-                  {selectedService ? selectedService.price : '€0'}
+                  —
                 </span>
               </div>
 
@@ -1081,7 +1054,7 @@ export default function CalendarBooking({ preselectedServiceId = '', onBookingCo
                     </p>
                     <div className="flex items-center justify-between text-[9px] pt-1 border-t border-stone-100 mt-1">
                       <span className="text-stone-400 font-mono text-[9px]">{b.referenceCode}</span>
-                      <span className="font-serif italic font-black text-[#B67C7C]">{b.price}</span>
+                      <span className="font-serif italic font-black text-[#B67C7C]">—</span>
                     </div>
                   </div>
                 ))}

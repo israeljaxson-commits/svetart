@@ -4,7 +4,7 @@
  */
 
 import { useState, MouseEvent } from 'react';
-import { Check, Gem, ArrowRight } from 'lucide-react';
+import { Check, Gem } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage, Language } from '../context/LanguageContext';
 import { SALON_SERVICES, ServiceCategory } from '../data/services';
@@ -28,13 +28,11 @@ interface ServicesProps {
 interface ServiceCardProps {
   service: Service;
   index: number;
-  handleInquiry: (bookingName: string) => void;
   formulaLabel: string;
-  btnInquireLabel: string;
   categoryLabel: string;
 }
 
-function ServiceCard({ service, index, handleInquiry, formulaLabel, btnInquireLabel, categoryLabel }: ServiceCardProps) {
+function ServiceCard({ service, index, formulaLabel, categoryLabel }: ServiceCardProps) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -106,15 +104,6 @@ function ServiceCard({ service, index, handleInquiry, formulaLabel, btnInquireLa
               {service.materials}
             </span>
           </div>
-
-          <a
-            href="#booking"
-            onClick={() => handleInquiry(service.bookingName)}
-            className="w-full py-4 rounded-full rose-gold-gradient text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-2xl hover:brightness-105 active:scale-98 cursor-pointer font-sans"
-          >
-            <span>{btnInquireLabel}</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
-          </a>
         </div>
       </div>
     </motion.div>
@@ -149,29 +138,6 @@ export default function Services({ onServiceSelect }: ServicesProps) {
     manicure: t.services.categoryManicure,
     pedicure: t.services.categoryPedicure,
     lamination: t.services.categoryLamination,
-  };
-
-  const handleInquiry = (bookingName: string) => {
-    onServiceSelect(bookingName);
-
-    // Force jump to booking first, then correct for sticky header with smooth offset.
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        const element = document.getElementById('booking');
-        if (!element) {
-          window.location.hash = 'booking';
-          return;
-        }
-
-        window.location.hash = 'booking';
-        const offset = 95;
-        const targetTop = Math.max(element.getBoundingClientRect().top + window.scrollY - offset, 0);
-        window.scrollTo({
-          top: targetTop,
-          behavior: 'smooth',
-        });
-      });
-    });
   };
 
   return (
@@ -221,9 +187,7 @@ export default function Services({ onServiceSelect }: ServicesProps) {
                 key={service.id}
                 service={service}
                 index={index}
-                handleInquiry={handleInquiry}
                 formulaLabel={t.services.formula}
-                btnInquireLabel={t.services.btnInquire}
                 categoryLabel={categoryLabels[service.category]}
               />
             ))}

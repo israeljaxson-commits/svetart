@@ -107,13 +107,14 @@ function ServiceCard({ service, index, handleInquiry, formulaLabel, btnInquireLa
             </span>
           </div>
 
-          <button
+          <a
+            href="#booking"
             onClick={() => handleInquiry(service.bookingName)}
             className="w-full py-4 rounded-full rose-gold-gradient text-white text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-2xl hover:brightness-105 active:scale-98 cursor-pointer font-sans"
           >
             <span>{btnInquireLabel}</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
-          </button>
+          </a>
         </div>
       </div>
     </motion.div>
@@ -153,21 +154,24 @@ export default function Services({ onServiceSelect }: ServicesProps) {
   const handleInquiry = (bookingName: string) => {
     onServiceSelect(bookingName);
 
-    setTimeout(() => {
-      const element = document.querySelector('#booking');
-      if (element) {
-        const offset = 95;
-        const bodyRect = document.body.getBoundingClientRect().top;
-        const elementRect = element.getBoundingClientRect().top;
-        const elementPosition = elementRect - bodyRect;
-        const offsetPosition = elementPosition - offset;
+    // Force jump to booking first, then correct for sticky header with smooth offset.
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        const element = document.getElementById('booking');
+        if (!element) {
+          window.location.hash = 'booking';
+          return;
+        }
 
+        window.location.hash = 'booking';
+        const offset = 95;
+        const targetTop = Math.max(element.getBoundingClientRect().top + window.scrollY - offset, 0);
         window.scrollTo({
-          top: offsetPosition,
+          top: targetTop,
           behavior: 'smooth',
         });
-      }
-    }, 120);
+      });
+    });
   };
 
   return (

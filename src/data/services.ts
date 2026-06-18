@@ -1,6 +1,7 @@
 export type ServiceCategory = 'manicure' | 'pedicure' | 'lamination';
 
 import heelCareImage from '../../assets/gallery/heel-care.jpg';
+import eyelashLaminationImage from '../../assets/gallery/eyelash-lamination.jpg';
 
 export const BOOKING_SERVICE_OPTIONS = [
   'Hygienic Manicure',
@@ -250,7 +251,7 @@ export const SALON_SERVICES: ServiceItem[] = [
     id: 'eyelash-lamination',
     bookingName: 'Eyelash Lamination',
     category: 'lamination',
-    image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=600',
+    image: eyelashLaminationImage,
     en: {
       name: 'Eyelash Lamination',
       price: '400 MDL',

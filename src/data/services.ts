@@ -2,6 +2,8 @@ export type ServiceCategory = 'manicure' | 'pedicure' | 'lamination';
 
 import heelCareImage from '../../assets/gallery/heel-care.jpg';
 import eyelashLaminationImage from '../../assets/gallery/eyelash-lamination.jpg';
+import hygienicPedicureImage from '../../assets/gallery/hygienic-pedicure.jpg';
+import aestheticPedicureImage from '../../assets/gallery/aesthetic-pedicure.jpg';
 
 export const BOOKING_SERVICE_OPTIONS = [
   'Hygienic Manicure',
@@ -143,7 +145,7 @@ export const SALON_SERVICES: ServiceItem[] = [
     id: 'hygienic-pedicure',
     bookingName: 'Hygienic Pedicure',
     category: 'pedicure',
-    image: 'https://images.unsplash.com/photo-1519415510248-855fa1d4e8a8?q=80&w=600',
+    image: hygienicPedicureImage,
     en: {
       name: 'Hygienic Pedicure',
       price: '250 MDL',
@@ -170,7 +172,7 @@ export const SALON_SERVICES: ServiceItem[] = [
     id: 'aesthetic-pedicure',
     bookingName: 'Aesthetic Pedicure',
     category: 'pedicure',
-    image: 'https://images.unsplash.com/photo-1600334129128-685c5582fd1c?q=80&w=600',
+    image: aestheticPedicureImage,
     en: {
       name: 'Aesthetic Pedicure',
       price: '400 MDL',

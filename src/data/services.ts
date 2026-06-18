@@ -4,6 +4,7 @@ import heelCareImage from '../../assets/gallery/heel-care.jpg';
 import eyelashLaminationImage from '../../assets/gallery/eyelash-lamination.jpg';
 import hygienicPedicureImage from '../../assets/gallery/hygienic-pedicure.jpg';
 import aestheticPedicureImage from '../../assets/gallery/aesthetic-pedicure.jpg';
+import eyebrowLaminationImage from '../../assets/gallery/eyebrow-lamination.jpg';
 
 export const BOOKING_SERVICE_OPTIONS = [
   'Hygienic Manicure',
@@ -280,7 +281,7 @@ export const SALON_SERVICES: ServiceItem[] = [
     id: 'eyebrow-lamination',
     bookingName: 'Eyebrow Lamination',
     category: 'lamination',
-    image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600',
+    image: eyebrowLaminationImage,
     en: {
       name: 'Eyebrow Lamination',
       price: '370 MDL',

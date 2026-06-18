@@ -33,7 +33,6 @@ export default function Navbar({ onBookClick }: NavbarProps) {
   const menuItems = [
     { label: t.nav.services, href: '#services' },
     { label: t.nav.about, href: '#about' },
-    { label: t.nav.gallery, href: '#gallery' },
     { label: t.nav.reviews, href: '#reviews' },
     { label: t.nav.faqs, href: '#faq' },
   ];

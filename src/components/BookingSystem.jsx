@@ -2,10 +2,20 @@ import { useState, useEffect } from 'react';
 import { BOOKING_SERVICE_OPTIONS } from '../data/services';
 import { useLanguage } from '../context/LanguageContext';
 
-const TIME_SLOTS = [
-  '08:30', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30',
-  '15:30', '16:30', '17:30', '18:30', '19:30', '20:00',
-];
+const TIME_SLOTS = (() => {
+  const startMinutes = 8 * 60;
+  const endMinutes = 23 * 60;
+  const stepMinutes = 90;
+  const slots = [];
+
+  for (let minutes = startMinutes; minutes <= endMinutes; minutes += stepMinutes) {
+    const hours = String(Math.floor(minutes / 60)).padStart(2, '0');
+    const mins = String(minutes % 60).padStart(2, '0');
+    slots.push(`${hours}:${mins}`);
+  }
+
+  return slots;
+})();
 
 const bookingHeaderT = {
   en: {

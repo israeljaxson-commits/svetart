@@ -10,6 +10,7 @@ import { useLanguage } from '../context/LanguageContext';
 import clientAvatar1 from '../assets/avatars/client-1.svg';
 import clientAvatar2 from '../assets/avatars/client-2.svg';
 import clientAvatar3 from '../assets/avatars/client-3.svg';
+import heroImage from '../assets/hero/hero-image.jpg';
 
 interface HeroProps {
   onBookClick: () => void;
@@ -42,22 +43,17 @@ export default function Hero({ onBookClick }: HeroProps) {
   const lt = localHeroT[lang] || localHeroT.en;
   const clientAvatars = [clientAvatar1, clientAvatar2, clientAvatar3];
 
-  // Interactivity state for luxury 3D visual tilt
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    // Normalize coordinates to -0.5 ... 0.5 for premium gentle tilt
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     setCoords({ x, y });
-    setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
     setCoords({ x: 0, y: 0 });
-    setIsHovered(false);
   };
 
   return (
@@ -185,220 +181,53 @@ export default function Hero({ onBookClick }: HeroProps) {
           </motion.div>
         </div>
 
-        {/* Right Side: Redesigned Luxury 3D Visual Centerpiece */}
+        {/* Right Side: Hero Image */}
         <div className="lg:col-span-5 relative flex justify-center lg:justify-end mt-12 lg:mt-0">
-          
-          <div 
-            className="relative w-72 sm:w-96 lg:w-full aspect-square flex items-center justify-center pointer-events-auto select-none"
-            style={{ perspective: 1200, transformStyle: 'preserve-3d' }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            {/* Coordinates-driven tilt container with a smooth custom layout */}
+          <div className="relative w-full max-w-[460px] aspect-[4/5]" style={{ perspective: 1400 }}>
             <motion.div
-              style={{
-                transformStyle: 'preserve-3d',
-                rotateY: coords.x * 25, // horizontal tilt
-                rotateX: coords.y * -25, // vertical tilt
-              }}
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
               animate={{
-                y: [0, -12, 0],
+                opacity: 1,
+                y: [0, -10, 0],
+                scale: 1,
+                rotateX: [2, -2, 2],
+                rotateY: [-3, 3, -3],
               }}
               transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut"
+                opacity: { duration: 1, ease: [0.19, 1, 0.22, 1], delay: 0.35 },
+                y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+                rotateX: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
+                rotateY: { duration: 8, repeat: Infinity, ease: 'easeInOut' },
               }}
-              className="relative w-full h-full flex items-center justify-center"
+              style={{
+                transformStyle: 'preserve-3d',
+                rotateY: coords.x * 18,
+                rotateX: coords.y * -14,
+              }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="relative h-full w-full rounded-[34px] overflow-hidden shadow-[0_30px_80px_rgba(42,35,33,0.18)] border border-white/50 bg-white/20"
             >
-              {/* 1. Underlying Deep Ambient Lighting Reflection Blur */}
-              <div className="absolute w-[280px] h-[280px] bg-[#E7D3C1]/20 rounded-full blur-[100px] pointer-events-none" />
-
-              {/* 2. Soft Underlying Shadow */}
-              <motion.div 
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.45, 0.3],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute bottom-6 w-[220px] h-[25px] rounded-full bg-[#2A2321]/15 blur-xl pointer-events-none"
-                style={{ transform: 'translateZ(-80px)' }}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/35 via-transparent to-[#D8A3A3]/10 pointer-events-none" />
+              <motion.img
+                src={heroImage}
+                alt="Beauty salon hero image"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ transform: 'translateZ(35px) scale(1.02)' }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2A2321]/40 via-transparent to-transparent pointer-events-none" />
 
-              {/* 3. Luxury Rose-Gold Metallic Sphere */}
-              <motion.div
-                animate={{
-                  y: [0, 8, 0],
-                  rotate: [0, 360],
-                }}
-                transition={{
-                  y: { duration: 25, repeat: Infinity, ease: "easeInOut" },
-                  rotate: { duration: 35, repeat: Infinity, ease: "linear" }
-                }}
-                style={{
-                  transform: 'translateZ(30px)',
-                  background: 'radial-gradient(circle at 35% 35%, #FFF2E8 0%, #E7D3C1 25%, #D8A3A3 60%, #B8866B 85%, #2A2321 100%)',
-                  boxShadow: 'inset -8px -8px 24px rgba(42, 35, 33, 0.65), inset 12px 12px 20px rgba(255, 255, 255, 0.8), 0 25px 60px rgba(42, 35, 33, 0.16)',
-                }}
-                className="absolute w-40 h-40 rounded-full border border-white/30"
-              />
-
-              {/* 4. Elongated Translucent Glass Nail Sculpture - Central Focus */}
-              <motion.div
-                animate={{
-                  y: [0, -12, 0],
-                  rotate: [12, -2, 12],
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  transform: 'translateZ(75px)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 230, 223, 0.4) 40%, rgba(216, 163, 163, 0.25) 100%)',
-                  boxShadow: 'inset 2px 2px 8px rgba(255, 255, 255, 0.85), inset -4px -4px 12px rgba(184, 134, 107, 0.2), 0 25px 50px rgba(42, 35, 33, 0.1)',
-                }}
-                className="absolute w-28 h-52 rounded-t-[100px] rounded-b-[40px] border border-white/50 flex flex-col justify-between p-6 overflow-hidden"
-              >
-                {/* Shimmer light reflect strip */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-[35deg] pointer-events-none" />
-                {/* Internal symmetrical lighting core */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-white/70 via-white/10 to-transparent" />
-                
-                {/* Decorative Rose-Gold Inset Arch inside the glass nail */}
-                <div className="w-full h-full rounded-t-[80px] rounded-b-[30px] border border-[#B8866B]/30 opacity-60 relative flex items-center justify-center">
-                  <div className="w-6 h-6 rounded-full border border-[#D8A3A3]/40" />
+              <div className="absolute left-5 bottom-5 right-5 flex items-end justify-between gap-4" style={{ transform: 'translateZ(45px)' }}>
+                <div className="rounded-2xl bg-white/70 backdrop-blur-md border border-white/40 px-4 py-3 shadow-lg max-w-[72%]">
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-[#B8866B] font-bold font-sans">SvetArt Beauty Studio</p>
+                  <p className="mt-1 text-sm text-[#2A2321] font-serif leading-snug">Luxury beauty care, captured in a single frame.</p>
                 </div>
-              </motion.div>
-
-              {/* 5. Smaller Overlapping Translucent Glass Nail Sculpture */}
-              <motion.div
-                animate={{
-                  y: [0, 15, 0],
-                  rotate: [-34, -44, -34],
-                }}
-                transition={{
-                  duration: 28,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  transform: 'translateZ(95px)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(231, 211, 193, 0.25) 60%, rgba(184, 134, 107, 0.15) 100%)',
-                  boxShadow: 'inset 1px 1px 4px rgba(255, 255, 255, 0.6), 0 12px 30px rgba(42, 35, 33, 0.05)',
-                }}
-                className="absolute w-16 h-36 rounded-t-[100px] rounded-b-[30px] border border-white/30"
-              />
-
-              {/* 6. Crystal Reflections (Faceted Diamond-Cut Prism catching lighting) */}
-              <motion.div
-                animate={{
-                  y: [0, -20, 0],
-                  rotateX: [0, 45, 0],
-                  rotateY: [40, 140, 40],
-                  scale: [1, 1.08, 1],
-                }}
-                transition={{
-                  duration: 22,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  transform: 'translateZ(130px)',
-                  clipPath: 'polygon(50% 0%, 100% 35%, 100% 65%, 50% 100%, 0% 65%, 0% 35%)',
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(216, 163, 163, 0.35) 50%, rgba(184, 134, 107, 0.5) 100%)',
-                  backdropFilter: 'blur(4px)',
-                  WebkitBackdropFilter: 'blur(4px)',
-                }}
-                className="absolute right-12 top-1/4 w-8 h-12 border border-white/40 flex items-center justify-center opacity-90"
-              >
-                {/* Specular split highlight line */}
-                <div className="w-[1px] h-full bg-white/70 transform rotate-12" />
-              </motion.div>
-
-              {/* 7. Secondary Smaller Floating Prism */}
-              <motion.div
-                animate={{
-                  y: [0, 22, 0],
-                  rotateX: [15, -15, 15],
-                  rotateY: [0, 180, 0],
-                }}
-                transition={{
-                  duration: 25,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  transform: 'translateZ(15px)',
-                  clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
-                  background: 'linear-gradient(225deg, rgba(255, 255, 255, 0.65) 0%, rgba(231, 211, 193, 0.3) 100%)',
-                  backdropFilter: 'blur(2px)',
-                  WebkitBackdropFilter: 'blur(2px)',
-                }}
-                className="absolute left-8 bottom-1/4 w-9 h-9 border border-white/30 opacity-70"
-              />
-
-              {/* 8. Champagne Gold sphere bead charm */}
-              <motion.div
-                animate={{
-                  x: [0, -25, 0],
-                  y: [0, 15, 0],
-                  scale: [1, 0.92, 1]
-                }}
-                transition={{
-                  duration: 32,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute top-10 right-24 w-5 h-5 rounded-full"
-                style={{
-                  transform: 'translateZ(55px)',
-                  background: 'radial-gradient(circle at 35% 35%, #FFFFFF 0%, #E7D3C1 40%, #B8866B 100%)',
-                  boxShadow: '0 8px 20px rgba(184, 134, 107, 0.25), inset 1px 1px 3px rgba(255, 255, 255, 0.9)'
-                }}
-              />
-
-              {/* 9. Highlight Sparkle Star */}
-              <motion.div
-                animate={{
-                  scale: [0.7, 1.3, 0.7],
-                  opacity: [0.35, 0.9, 0.35],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                className="absolute right-4 bottom-1/3 text-[#E7D3C1]"
-                style={{ transform: 'translateZ(140px)' }}
-              >
-                <Sparkles className="w-5 h-5" />
-              </motion.div>
-
-              {/* Luxury Certification Floating Seal (translateZ: 100px) */}
-              <div 
-                className="absolute -top-4 -right-4 hover:scale-105 duration-300 rounded-2xl px-4 py-2.5 bg-[#2A2321] text-white shadow-2xl border border-[#D8A3A3]/20 flex items-center gap-1.5 select-none"
-                style={{
-                  transform: 'translateZ(110px)',
-                }}
-              >
-                <Star className="w-3.5 h-3.5 fill-[#E7D3C1] text-[#E7D3C1]" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-[#F2E4DF] font-sans">{lt.certifiedSeal}</span>
+                <div className="rounded-full bg-[#2A2321]/80 text-[#F2E4DF] px-4 py-2 text-[9px] uppercase tracking-[0.25em] font-black font-sans whitespace-nowrap shadow-lg">
+                  {lt.certifiedSeal}
+                </div>
               </div>
-
             </motion.div>
-
           </div>
-
         </div>
 
       </div>

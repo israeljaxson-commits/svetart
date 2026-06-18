@@ -81,7 +81,7 @@ export default function Navbar({ onBookClick }: NavbarProps) {
           className="flex flex-col select-none group mt-2 md:mt-3 transform translate-y-1.5 focus:outline-none"
         >
           <span className="text-2xl md:text-4xl font-serif font-black tracking-[0.08em] text-[#2C2523] uppercase group-hover:text-[#B67C7C] transition-all duration-350 leading-none">
-            SvertArt
+            SvetArt
           </span>
           <span className="text-[10px] md:text-[11px] font-sans font-black tracking-[0.38em] text-[#B67C7C] uppercase leading-none mt-1.5 group-hover:text-[#2C2523] transition-colors duration-350 pl-0.5">
             Beauty Studio

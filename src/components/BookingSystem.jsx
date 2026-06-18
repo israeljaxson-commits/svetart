@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BOOKING_SERVICE_OPTIONS } from '../data/services';
 import { useLanguage } from '../context/LanguageContext';
+
+const TIME_SLOTS = [
+  '08:30', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30',
+  '15:30', '16:30', '17:30', '18:30', '19:30', '20:00',
+];
 
 const bookingHeaderT = {
   en: {
@@ -23,9 +28,69 @@ const bookingHeaderT = {
   },
 };
 
+const bookingFormT = {
+  en: {
+    service: 'Service',
+    selectService: 'Select a service',
+    fullName: 'Full name',
+    yourName: 'Your name',
+    emailAddress: 'Email address',
+    phoneNumber: 'Phone number',
+    preferredDate: 'Preferred date',
+    preferredTime: 'Preferred time',
+    specialRequest: 'Special request',
+    optional: '(optional)',
+    specialRequestPlaceholder: 'Any special requests or preferences',
+    selectDateFirst: 'Select a date first',
+    selectTime: 'Select a time',
+    booked: 'Booked',
+    timeUnavailableError: 'This time slot is no longer available. Please choose another time.',
+    genericSubmitError: 'Unable to reserve this slot right now. Please try again.',
+  },
+  ro: {
+    service: 'Serviciu',
+    selectService: 'Selectează un serviciu',
+    fullName: 'Nume complet',
+    yourName: 'Numele tău',
+    emailAddress: 'Adresă de email',
+    phoneNumber: 'Număr de telefon',
+    preferredDate: 'Data preferată',
+    preferredTime: 'Ora preferată',
+    specialRequest: 'Solicitare specială',
+    optional: '(opțional)',
+    specialRequestPlaceholder: 'Orice solicitări speciale sau preferințe',
+    selectDateFirst: 'Selectează mai întâi data',
+    selectTime: 'Selectează ora',
+    booked: 'Ocupat',
+    timeUnavailableError: 'Acest interval orar nu mai este disponibil. Te rugăm să alegi altă oră.',
+    genericSubmitError: 'Nu am putut rezerva acest interval acum. Te rugăm să încerci din nou.',
+  },
+  ru: {
+    service: 'Услуга',
+    selectService: 'Выберите услугу',
+    fullName: 'Полное имя',
+    yourName: 'Ваше имя',
+    emailAddress: 'Электронная почта',
+    phoneNumber: 'Номер телефона',
+    preferredDate: 'Предпочтительная дата',
+    preferredTime: 'Предпочтительное время',
+    specialRequest: 'Особый запрос',
+    optional: '(необязательно)',
+    specialRequestPlaceholder: 'Любые особые запросы или предпочтения',
+    selectDateFirst: 'Сначала выберите дату',
+    selectTime: 'Выберите время',
+    booked: 'Занято',
+    timeUnavailableError: 'Это время уже недоступно. Пожалуйста, выберите другое.',
+    genericSubmitError: 'Сейчас не удалось забронировать это время. Пожалуйста, попробуйте снова.',
+  },
+};
+
 export default function BookingSystem({ preselectedService = '' }) {
+  const formRef = useRef(null);
+  const allowNativeSubmitRef = useRef(false);
   const { lang } = useLanguage();
   const header = bookingHeaderT[lang] || bookingHeaderT.en;
+  const formT = bookingFormT[lang] || bookingFormT.en;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -34,9 +99,12 @@ export default function BookingSystem({ preselectedService = '' }) {
   const [time, setTime] = useState('');
   const [specialRequest, setSpecialRequest] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [nextUrl, setNextUrl] = useState('');
   const [minDate, setMinDate] = useState('');
   const [minTime, setMinTime] = useState('');
+  const [bookedSlotsForDate, setBookedSlotsForDate] = useState([]);
 
   const defaultNextUrl = typeof window !== 'undefined'
     ? `${window.location.origin}${window.location.pathname}?booking=success`
@@ -59,7 +127,44 @@ export default function BookingSystem({ preselectedService = '' }) {
     }
   }, [preselectedService]);
 
-  const effectiveMinTime = date === minDate ? minTime : '00:00';
+  useEffect(() => {
+    if (!date) {
+      setBookedSlotsForDate([]);
+      setTime('');
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const fetchAvailability = async () => {
+      try {
+        const response = await fetch(`/api/availability?date=${encodeURIComponent(date)}`, {
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          throw new Error('availability_request_failed');
+        }
+        const data = await response.json();
+        const bookedSlots = Array.isArray(data.bookedSlots) ? data.bookedSlots : [];
+        setBookedSlotsForDate(bookedSlots);
+      } catch (_error) {
+        if (!controller.signal.aborted) {
+          setBookedSlotsForDate([]);
+        }
+      }
+    };
+
+    fetchAvailability();
+
+    return () => controller.abort();
+  }, [date]);
+
+  useEffect(() => {
+    if (!time) return;
+    if (bookedSlotsForDate.includes(time)) {
+      setTime('');
+    }
+  }, [bookedSlotsForDate, time]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -79,6 +184,76 @@ export default function BookingSystem({ preselectedService = '' }) {
     const timer = window.setTimeout(() => setSubmitted(false), 5000);
     return () => window.clearTimeout(timer);
   }, [submitted]);
+
+  const isTimeSlotUnavailable = (slot) => {
+    if (!date) return false;
+    if (bookedSlotsForDate.includes(slot)) return true;
+    if (date === minDate && minTime && slot < minTime) return true;
+    return false;
+  };
+
+  const handleSubmit = async (e) => {
+    if (allowNativeSubmitRef.current) {
+      allowNativeSubmitRef.current = false;
+      return;
+    }
+
+    e.preventDefault();
+
+    if (!date || !time) return;
+
+    if (isTimeSlotUnavailable(time)) {
+      setSubmitError(formT.timeUnavailableError);
+      return;
+    }
+
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/bookings/reserve', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service,
+          name,
+          email,
+          phone,
+          date,
+          time,
+          specialRequest,
+        }),
+      });
+
+      if (response.status === 409) {
+        setSubmitError(formT.timeUnavailableError);
+        const availabilityRes = await fetch(`/api/availability?date=${encodeURIComponent(date)}`);
+        if (availabilityRes.ok) {
+          const availabilityData = await availabilityRes.json();
+          const bookedSlots = Array.isArray(availabilityData.bookedSlots) ? availabilityData.bookedSlots : [];
+          setBookedSlotsForDate(bookedSlots);
+        }
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!response.ok) {
+        setSubmitError(formT.genericSubmitError);
+        setIsSubmitting(false);
+        return;
+      }
+
+      allowNativeSubmitRef.current = true;
+      if (formRef.current) {
+        formRef.current.submit();
+      }
+    } catch (_e) {
+      setSubmitError(formT.genericSubmitError);
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section id="booking" className="py-28 bg-[#F8F0EE]">
@@ -104,9 +279,17 @@ export default function BookingSystem({ preselectedService = '' }) {
           </div>
         )}
 
+        {submitError && (
+          <div className="mb-6 rounded-[30px] border border-rose-200 bg-rose-50 px-6 py-4 text-sm text-rose-800 shadow-sm">
+            {submitError}
+          </div>
+        )}
+
         <form
+          ref={formRef}
           action="https://formsubmit.co/svetart.beauty%40gmail.com"
           method="POST"
+          onSubmit={handleSubmit}
           className="grid gap-6 bg-gradient-to-br from-[#FFFBF7] via-[#FEF3EB] to-[#F7E6DC] p-10 rounded-[48px] shadow-[0_30px_60px_rgba(148,94,77,0.14)] border border-[#E9D4C8]"
         >
           <input type="hidden" name="_subject" value="New booking request from SvetArt" />
@@ -114,7 +297,7 @@ export default function BookingSystem({ preselectedService = '' }) {
           <input type="hidden" name="_next" value={nextUrl || defaultNextUrl} />
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-            <span className="text-sm font-semibold text-stone-700">Service</span>
+            <span className="text-sm font-semibold text-stone-700">{formT.service}</span>
             <select
               name="service"
               value={service}
@@ -122,7 +305,7 @@ export default function BookingSystem({ preselectedService = '' }) {
               required
               className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60 appearance-none cursor-pointer"
             >
-              <option value="" disabled>Select a service</option>
+              <option value="" disabled>{formT.selectService}</option>
               {BOOKING_SERVICE_OPTIONS.map((option) => (
                 <option key={option} value={option}>{option}</option>
               ))}
@@ -130,20 +313,20 @@ export default function BookingSystem({ preselectedService = '' }) {
           </label>
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-            <span className="text-sm font-semibold text-stone-700">Full name</span>
+            <span className="text-sm font-semibold text-stone-700">{formT.fullName}</span>
             <input
               type="text"
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
+              placeholder={formT.yourName}
               required
               className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60"
             />
           </label>
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-            <span className="text-sm font-semibold text-stone-700">Email address</span>
+            <span className="text-sm font-semibold text-stone-700">{formT.emailAddress}</span>
             <input
               type="email"
               name="email"
@@ -156,7 +339,7 @@ export default function BookingSystem({ preselectedService = '' }) {
           </label>
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-            <span className="text-sm font-semibold text-stone-700">Phone number</span>
+            <span className="text-sm font-semibold text-stone-700">{formT.phoneNumber}</span>
             <input
               type="tel"
               name="phone"
@@ -170,7 +353,7 @@ export default function BookingSystem({ preselectedService = '' }) {
 
           <div className="grid gap-6 md:grid-cols-2">
             <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-              <span className="text-sm font-semibold text-stone-700">Preferred date</span>
+              <span className="text-sm font-semibold text-stone-700">{formT.preferredDate}</span>
               <input
                 type="date"
                 name="date"
@@ -183,26 +366,35 @@ export default function BookingSystem({ preselectedService = '' }) {
             </label>
 
             <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-              <span className="text-sm font-semibold text-stone-700">Preferred time</span>
-              <input
-                type="time"
+              <span className="text-sm font-semibold text-stone-700">{formT.preferredTime}</span>
+              <select
                 name="time"
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
                 required
-                min={effectiveMinTime}
-                className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60"
-              />
+                disabled={!date}
+                className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60 appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-65"
+              >
+                <option value="" disabled>{date ? formT.selectTime : formT.selectDateFirst}</option>
+                {TIME_SLOTS.map((slot) => {
+                  const unavailable = isTimeSlotUnavailable(slot);
+                  return (
+                    <option key={slot} value={slot} disabled={unavailable}>
+                      {unavailable ? `${slot} - ${formT.booked}` : slot}
+                    </option>
+                  );
+                })}
+              </select>
             </label>
           </div>
 
           <label className="block rounded-[32px] border border-[#E9D2C6] bg-[#FFF8F3] p-5 shadow-[0_18px_45px_rgba(148,94,77,0.08)]">
-            <span className="text-sm font-semibold text-stone-700">Special request <span className="text-stone-500">(optional)</span></span>
+            <span className="text-sm font-semibold text-stone-700">{formT.specialRequest} <span className="text-stone-500">{formT.optional}</span></span>
             <textarea
               name="specialRequest"
               value={specialRequest}
               onChange={(e) => setSpecialRequest(e.target.value)}
-              placeholder="Any special requests or preferences"
+              placeholder={formT.specialRequestPlaceholder}
               rows={4}
               className="mt-3 w-full rounded-[28px] border border-[#D8B9A0] bg-[#FBF0E7] px-5 py-4 text-sm text-stone-900 outline-none transition duration-300 focus:border-[#C8A38D] focus:ring-2 focus:ring-[#E8CFC1]/60"
             />
@@ -210,6 +402,7 @@ export default function BookingSystem({ preselectedService = '' }) {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="mt-3 inline-flex items-center justify-center rounded-full bg-[#5D2F2A] px-7 py-4 text-sm font-bold uppercase tracking-[0.18em] text-white transition duration-300 hover:bg-[#7b473f] shadow-[0_14px_30px_rgba(93,47,42,0.16)] disabled:cursor-not-allowed disabled:bg-[#b6a2a0]"
           >
             Send Booking Request

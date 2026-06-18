@@ -96,7 +96,6 @@ const bookingFormT = {
 };
 
 export default function BookingSystem({ preselectedService = '' }) {
-  const formRef = useRef(null);
   const { lang } = useLanguage();
   const header = bookingHeaderT[lang] || bookingHeaderT.en;
   const formT = bookingFormT[lang] || bookingFormT.en;

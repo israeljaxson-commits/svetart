@@ -213,7 +213,7 @@ export default function Hero({ onBookClick }: HeroProps) {
                 src={heroImage}
                 alt="Beauty salon hero image"
                 className="absolute inset-0 h-full w-full object-cover"
-                style={{ transform: 'translateZ(35px) scale(1.02)' }}
+                style={{ transform: 'translateZ(35px) scale(1)', objectPosition: '74% 62%' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2A2321]/40 via-transparent to-transparent pointer-events-none" />
 

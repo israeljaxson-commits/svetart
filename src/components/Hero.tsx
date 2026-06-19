@@ -7,9 +7,9 @@ import { useState, MouseEvent } from 'react';
 import { ArrowRight, Sparkles, Star, ArrowDown } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useLanguage } from '../context/LanguageContext';
-import clientAvatar1 from '../assets/avatars/client-1.svg';
-import clientAvatar2 from '../assets/avatars/client-2.svg';
-import clientAvatar3 from '../assets/avatars/client-3.svg';
+import clientAvatar1 from '../assets/avatars/client-1.jpg';
+import clientAvatar2 from '../assets/avatars/client-2.jpg';
+import clientAvatar3 from '../assets/avatars/client-3.jpg';
 import heroImage from '../assets/hero/hero-image.jpg';
 
 interface HeroProps {

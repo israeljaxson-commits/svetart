@@ -113,8 +113,8 @@ export default function BookingSystem({ preselectedService = '' }) {
   const [minTime, setMinTime] = useState('');
 
   const defaultNextUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}${window.location.pathname}?booking=success`
-    : '/?booking=success';
+    ? `${window.location.origin}/thank-you.html`
+    : '/thank-you.html';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
